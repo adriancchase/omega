@@ -2,9 +2,9 @@
 
 ## Team Members
 
-Nathaniel Hansche
-Adrian Chase
-Jawad Alam
+- Nathaniel Hansche
+- Adrian Chase
+- Jawad Alam
 
 ## Part 0: Data Interactions
 
@@ -13,6 +13,9 @@ Jawad Alam
 To view go to Wireframes Folder
 
 - Landing / Home Page
+
+![Landing Page](Wireframes/foodle_landing_page_logo.jpg)
+
 - Login Page
 - Social Feed
 - Create Post
