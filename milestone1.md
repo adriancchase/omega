@@ -1,8 +1,14 @@
-MILESTONE 1
+#MILESTONE 1
 
-Part 0: Data Interactions
+## Team Members
 
-Part 1: Wireframes
+Nathaniel Hansche
+Adrian Chase
+Jawad Alam
+
+##Part 0: Data Interactions
+
+##Part 1: Wireframes
 
 To view go to Wireframes Folder
 
@@ -15,4 +21,4 @@ To view go to Wireframes Folder
 - View Friend List
 - Guidelines Page
 
-Part 3: HTML/CSS UX
+##Part 3: HTML/CSS UX
