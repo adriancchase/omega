@@ -1,0 +1,21 @@
+.attendees-list {
+    text-align: left;
+    font-size: small;
+}
+
+.post {
+    border-color: aquamarine;
+}
+
+.join-button {
+    padding-top: 2rem;
+}
+
+.feed {
+    padding-top: 0.5rem;
+}
+
+.sidebar {
+    border-color: aquamarine;
+    background-color: lightgray;
+}
