@@ -16,6 +16,13 @@
 }
 
 .sidebar {
-    border-color: aquamarine;
-    background-color: lightgray;
+    position: sticky;
+    top: 1rem;
+    padding-top: 1rem;
 }
+
+a {
+    color: blue;
+    text-decoration: none; /* no underline */
+  }
+  
