@@ -1,10 +1,12 @@
 window.onload = () => {
-   createPost();
-   createPost();
-   createPost();
-   createPost();
-   createPost();
-   createPost();
+    console.log('Loading posts...');
+    createPost();
+    createPost();
+    createPost();
+    createPost();
+    createPost();
+    createPost();
+    console.log('Posts loaded successfully.');
 }
 
 
