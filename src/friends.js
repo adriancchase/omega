@@ -1,13 +1,13 @@
 window.onload = () => {
-  createPost();
-  createPost();
-  createPost();
-  createPost();
-  createPost();
-  createPost();
+  createFriendItem();
+  createFriendItem();
+  createFriendItem();
+  createFriendItem();
+  createFriendItem();
+  createFriendItem();
 };
 
-function createPost(attendees, start, end, location) {
-  const newPost = document.getElementById("post").content.cloneNode(true);
-  document.getElementById("feed").appendChild(newPost);
+function createFriendItem(attendees, start, end, location) {
+  const newPost = document.getElementById("friend-item").content.cloneNode(true);
+  document.getElementById("friends-list").appendChild(newPost);
 }
