@@ -1,10 +1,7 @@
 window.onload = () => {
-  createFriendItem();
-  createFriendItem();
-  createFriendItem();
-  createFriendItem();
-  createFriendItem();
-  createFriendItem();
+  for (let i = 0; i < 25; ++i) {
+    createFriendItem();
+  }
 };
 
 function createFriendItem(attendees, start, end, location) {
