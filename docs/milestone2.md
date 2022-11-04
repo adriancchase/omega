@@ -3,37 +3,86 @@
 ### User
 
     {
+        // Unique username
+        userName: string;  
+        // Real first name 
+        firstName: string;
+        // Real last name
+        lastName: string;
+        // Profile picture
+        pictureUrl: string; 
+        // Start/end times where user is available
+        availability: TimeInterval[];   
+        // Posts made by the user
+        posts: string[];    
+        // List of friends' usernames
+        friends: string[]; 
+        // IDs for posts displayed in user's feed 
+        feed: string[];     
+    }
+
+### UserView
+
+    {
         userName: string;
         firstName: string;
         lastName: string;
-        posts: Post[];
+        pictureUrl: string;
         availability: TimeInterval[];
-        friends: string[];
     }
 
-Each user will have a unique userName, but the firstName and lastName fields need not be unique. 
-
-The posts field is an array of posts made by the user. 
-
-The availability field contains an array of time intervals where the user is available to get a meal. 
-
-The friends field is an array of the usernames of the user's friends.
+Contains a subset of the fields in User, and is used to display a user's public profile information.
 
 ### Post
 
     {
+        // Post ID
         id: string;
-        author: string;
-        attendees: string[];
+        // Username of author
+        author: string; 
+        // List of usernames for users attending the meal        
+        attendees: string[];   
+        // Name of restaurant 
+        location: string;       
+        // Meal start/end times
+        timeInterval: TimeInterval;  
+        // ID of chat created for attendees   
+        chatId: string;     
+        // Usernames of users who this post will be made visible to    
+        visibleTo: string[];    
+    }
+
+
+### PostView
+
+    {
+        author: UserView;
+        attendees: UserView[];
         location: string;
         timeInterval: TimeInterval;
     }
 
-Contains the post ID, author username, the usernames of the users who have signed up to attend the meal, the location (name of restaurant), and the starting and ending times.
+The fields used to display a post. Note that, compared to a regular Post object, the username strings are replaced with UserView objects.
+
+### Chat
+
+    {
+        id: string;
+        messages: Message[];
+    }
+
+### Message
+
+    {
+        // Username of sender
+        sender: string;
+        // Message text contents
+        text: string;
+    }
 
 ### TimeInterval
 
-    TimeInterval {
+    {
         start: Date;
         end: Date;
     }
@@ -42,13 +91,13 @@ Contains the post ID, author username, the usernames of the users who have signe
 
 ### User
 
-    POST user/create
+    POST user/new
 
 Creates a new user. Request body must conform to the User object schema.
 
     PUT user/{username}
 
-Modify the User object with the given username. Should be a JSON object containing a subset of the fields contained in User.
+Updates the User object with the given username. The request body must contain the subset of User object fields corresponding to the fields that should be updated.
 
     GET user/{username}/posts
 
@@ -56,15 +105,15 @@ Returns an array of all posts (Post objects) made by the user with the given use
 
     GET user/{username}/friends
 
-Returns an array of all usernames on the friends list of the user with the given username.
+Returns an array of UserView objects for all users on the friends list of the user with the given username.
 
-    GET user/{username}/fullname
+    GET user/{username}/feed
 
-Returns the string containing the user's full name (first and last).
+Returns the feed (array of PostView objects) for the user with the given username.
 
 ### Post
 
-    POST post/create
+    POST post/new
 
 Creates a new post. The request body must conform to the Post object schema, minus the 'id' field which will be automatically generated.
 
@@ -76,6 +125,16 @@ Returns the Post object with the given ID.
 
 Deletes the existing post with the given ID.
 
-    PUT post/{id}/update
+    PUT post/{id}
 
-Updates the post with the given ID. The request body must contain the subset of Post object fields corresponding to the fields that should be updated.
+Updates the Post object with the given ID. The request body must contain the subset of Post object fields corresponding to the fields that should be updated.
+
+### Chat
+
+    GET chat/{id}
+
+Returns the Chat object with the given ID.
+
+    PUT chat/{id}
+
+Sends a message to the chat with the given ID. The request body must be a Message object.
