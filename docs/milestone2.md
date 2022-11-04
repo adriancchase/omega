@@ -95,6 +95,10 @@ The fields used to display a post. Note that, compared to a regular Post object,
 
 Creates a new user. Request body must conform to the User object schema.
 
+    GET user/{username}
+
+Returns the User object with the given username.
+
     PUT user/{username}
 
 Updates the User object with the given username. The request body must contain the subset of User object fields corresponding to the fields that should be updated.
