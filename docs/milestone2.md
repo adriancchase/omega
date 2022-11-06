@@ -115,6 +115,10 @@ Returns an array of UserView objects for all users on the friends list of the us
 
 Returns the feed (array of PostView objects) for the user with the given username.
 
+    GET user/{username}/availability
+
+Returns the availability field from the User object with the given username.
+
 ### Post
 
     POST post/new
