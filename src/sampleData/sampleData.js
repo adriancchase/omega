@@ -43,3 +43,15 @@ export function createRandomPost() {
     timeInterval: { start: startDate, end: endDate },
   };
 }
+
+for (let i = 0; i < 10; i++) {
+  let fr = createRandomUser();
+  let userName = fr.username;
+  USERS[userName] = fr;
+}
+
+for (let i = 0; i < 10; i++) {
+  let po = createRandomPost();
+  let poID = po.id;
+  POSTS[poID] = po;
+}
