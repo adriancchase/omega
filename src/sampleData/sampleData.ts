@@ -5,12 +5,16 @@ import * as types from '../backend/types';
 export const USERS: Record<string, types.User> = {};
 /** Map post ID to Post objects. */
 export const POSTS: Record<string, types.Post> = {};
+/** All users will be set to have the same availability. */
+const availability = [createSampleTimeInterval()]
 
 
 for (let i = 0; i < 10; i++) {
   const user = createSampleUser();
   USERS[user.userName] = user;
 }
+const testUser = createSampleUser('nhansche');
+USERS[testUser.userName] = testUser;
 
 for (let i = 0; i < 10; i++) {
   const post = createSamplePost();
@@ -18,13 +22,13 @@ for (let i = 0; i < 10; i++) {
 }
 
 
-export function createSampleUser(): types.User {
+export function createSampleUser(username?: string): types.User {
   return {
-    userName: faker.internet.userName(),
+    userName: username || faker.internet.userName(),
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
     posts: [],
-    availability: [createSampleTimeInterval()],
+    availability,   // Set all users to have the same availability
     friends: Object.keys(USERS),
     pictureUrl: faker.image.avatar(),
     feed: Object.keys(POSTS),
