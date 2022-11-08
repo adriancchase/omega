@@ -1,35 +1,18 @@
 import * as types from './backend/types';
-import {importHtml} from './utils/htmlUtils';
+import {importHtml} from './utils/htmlUtils.js';
 
-importHtml('createPostModal.html', 'importCreatePostModal');
-/** 
-fetch('createPostModal.html')
-    .then(response => response.text())
-    .then(addCreatePostModalToDom);
-
-
-function addCreatePostModalToDom(htmlText: string): void {
-    console.log('Adding createPostModal to DOM...');
-    const scriptElement = document.querySelector('script#importCreatePostModal');
-    
-    if (scriptElement && scriptElement.parentNode) {
-        const replacementElement = document.createElement('div');
-        replacementElement.innerHTML = htmlText;
-        scriptElement.parentNode.replaceChild(replacementElement, scriptElement);
-    } else {
-        console.error('addCreatePostModalToDom failed: scriptElement or scriptElement.parentNode is null.');
-    }
-    console.log('createPostModal succesfully added to DOM.');
-}
-*/
+importHtml('createPostModal.html', 'importCreatePostModal').then(() => {
+    document.getElementById('closeCreatePostModal')?.addEventListener('click', clearAvailableFriendsList);
+    document.getElementById('selectTimeButton')?.addEventListener('click', selectTime);
+});
 
 async function selectTime(): Promise<void> {
     console.log('Running selectTime function...');
-    const userName = 'nhansche';
+    clearAvailableFriendsList();
+    const userName = 'nhansche'; // For testing
     const startTimeInput = (<HTMLInputElement>document.getElementById('startTimeInput')).value;
     const endTimeInput = (<HTMLInputElement>document.getElementById('endTimeInput')).value;
     
-
     if (startTimeInput.length !== 0 && endTimeInput.length !== 0) {
         // Note: response.json() parses Date objects into strings rather than Date objects, so this is not actually of type User
         const friends: types.UserView[] = await fetch(`user/${userName}/friends`).then(response => response.json());
@@ -44,12 +27,7 @@ async function selectTime(): Promise<void> {
         console.log(`Available Friends: ${JSON.stringify(availableFriends)}`);
         const availableFriendsList = document.getElementById('availableFriendsList');
         if (availableFriendsList) {
-            availableFriends.forEach(friend => {
-                const listItem = document.createElement('li');
-                listItem.innerText = `${friend.firstName} ${friend.lastName}`;
-                listItem.classList.add('list-group-item');
-                availableFriendsList.appendChild(listItem);
-            });
+            availableFriends.forEach(friend => showAvailableFriend(friend, availableFriendsList));
         } else {
             console.error('selectTime() failed: availableFriendsList is null.');
         }
@@ -58,7 +36,7 @@ async function selectTime(): Promise<void> {
 }
 
 
-function isAvailableAtTime(user: types.UserView, timeInterval: types.TimeInterval) {
+function isAvailableAtTime(user: types.UserView, timeInterval: types.TimeInterval): boolean {
     for (const {start, end} of user.availability) {
         const startDate = new Date(start);
         const endDate = new Date(end);
@@ -68,4 +46,28 @@ function isAvailableAtTime(user: types.UserView, timeInterval: types.TimeInterva
     }
 
     return false;
+}
+
+function showAvailableFriend(friend: types.UserView, availableFriendsList: HTMLElement): void {
+    const listItem = document.createElement('li');
+    listItem.classList.add('list-group-item', 'available-friend');
+
+    const friendName = document.createElement('span');
+    friendName.innerText = `${friend.firstName} ${friend.lastName}`;
+
+    const inviteButton = document.createElement('button');
+    inviteButton.type = 'button';
+    inviteButton.classList.add('btn', 'btn-primary', 'invite-friend-button');
+    inviteButton.innerText = 'Invite';
+
+    listItem.appendChild(friendName);
+    listItem.appendChild(inviteButton);
+    availableFriendsList.appendChild(listItem);
+}
+
+function clearAvailableFriendsList(): void {
+    const availableFriendsList = document.getElementById('availableFriendsList');
+    if (availableFriendsList) {
+        availableFriendsList.innerHTML = '';
+    }
 }

@@ -26,3 +26,21 @@ a {
     text-decoration: none; /* no underline */
 }
   
+.available-friends-list {
+    overflow: hidden;
+    overflow-y: auto;
+    min-height: 20rem;
+    height: 20rem; 
+    max-height: auto;
+}
+
+.available-friend {
+    padding-bottom: 1.5rem;
+    text-align: left;
+}
+
+.invite-friend-button {
+    position: absolute; 
+    right: 0;
+}
+
