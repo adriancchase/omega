@@ -44,7 +44,7 @@ async function selectTime(): Promise<void> {
         if (availableFriendsList) {
             availableFriends.forEach(friend => {
                 const listItem = document.createElement('li');
-                listItem.innerText = friend.userName;
+                listItem.innerText = `${friend.firstName} ${friend.lastName}`;
                 listItem.classList.add('list-group-item');
                 availableFriendsList.appendChild(listItem);
             });
