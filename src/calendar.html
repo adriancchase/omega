@@ -68,7 +68,7 @@
 			              </tbody> 
 				          </table>
 				        </div> 
-				        <button class="button" id="add-button">Schedule Meal</button>
+				        <button class="button" id="add-button">Post Meal</button>
 				      </div>
 				    </div>
 				    <div class="events-container">
@@ -77,8 +77,15 @@
 				        <h2 class="dialog-header"> Schedule New Meal </h2>
 				        <form class="form" id="form">
 				          <div class="form-container" align="center">
-				            <label class="form-label" id="valueFromMyButton" for="name">Meal name</label>
-				            <input class="input" type="text" id="name" maxlength="36">
+				        	<!-- <label class="form-label" id="valueFromMyButton" for="name">Meal name</label> 
+
+				            <input class="input" type="text" id="name" maxlength="36">-->
+							<label class="form-label" id="valueFromMyButton" for="count">Start</label>
+							<input class="input" type="time" id="start-time-appt">
+
+							<label class="form-label" id="valueFromMyButton" for="count">End</label>
+							<input class="input" type="time" id="end-time-appt">
+
 				            <label class="form-label" id="valueFromMyButton" for="count">Number of people to invite</label>
 				            <input class="input" type="number" id="count" min="0" max="1000000" maxlength="7">
 				            <input type="button" value="Cancel" class="button" id="cancel-button">
