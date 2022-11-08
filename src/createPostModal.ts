@@ -1,6 +1,8 @@
 import * as types from './backend/types';
+import {importHtml} from './utils/htmlUtils';
 
-
+importHtml('createPostModal.html', 'importCreatePostModal');
+/** 
 fetch('createPostModal.html')
     .then(response => response.text())
     .then(addCreatePostModalToDom);
@@ -19,7 +21,7 @@ function addCreatePostModalToDom(htmlText: string): void {
     }
     console.log('createPostModal succesfully added to DOM.');
 }
-
+*/
 
 async function selectTime(): Promise<void> {
     console.log('Running selectTime function...');
