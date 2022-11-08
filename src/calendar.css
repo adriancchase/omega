@@ -366,6 +366,12 @@ h1, h2, h3, h4, h5, h6,
 .month:hover {
   color: orangered; }
 
+  .col-2 {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 16.66667%;
+  flex: 0 0 16.66667%;
+  max-width: 16.66667%; }
+
 /*  Dates table */
 .table-date {
   cursor: default;
@@ -456,3 +462,11 @@ h1, h2, h3, h4, h5, h6,
 
 .error-input {
   border-color: #ff7b00; }
+
+  
+
+.sidebar {
+  position: sticky;
+  top: 1rem;
+  padding-top: 1rem;
+}
