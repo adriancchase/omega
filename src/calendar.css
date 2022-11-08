@@ -16,7 +16,7 @@ html {
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
 
-article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
+article, aside, figcaption, figure, footer, header, hgroup, main, nav {
   display: block; }
 
 body {
@@ -29,7 +29,9 @@ body {
   text-align: left;
   background-color: #fff; }
 
-
+  .outter-section {
+    display: inline-block;
+  }
 
 a {
   color: #007bff;
@@ -118,17 +120,19 @@ h1, h2, h3, h4, h5, h6,
   }
 
   .heading-section {
+    margin-top:4em;
     font-size: 28px;
-    color: #000; }
+    color: #000; 
+  }
 
     .row {
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
       -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-      margin-right: -15px;
-      margin-left: -15px; }
+      flex-wrap:nowrap;
+      margin-right: -5px;
+      margin-left: -5px; }
 
       .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col,
 .col-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm,
@@ -469,4 +473,5 @@ h1, h2, h3, h4, h5, h6,
   position: sticky;
   top: 1rem;
   padding-top: 1rem;
+  float: left;
 }
