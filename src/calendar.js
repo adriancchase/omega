@@ -1,7 +1,9 @@
 
 
-(function ($) {
+
   "use strict";
+  import {getLoggedInUserName} from './utils/dataUtils.js';
+  import * as types from './backend/types.js';
 
   // Setup the calendar with the current date
   $(document).ready(function () {
@@ -187,6 +189,37 @@
     endDate.setMinutes(t2.substring(3));
     console.log("End Date/Time: " + endDate);
     event_data["events"].push(event);
+    sendPostToServer(startDate, endDate, name);
+
+  }
+
+ async function sendPostToServer(startDate, endDate, location) {
+    const userName = "testuser";
+    const attendees = ["user1", "user2"];
+    const response = await fetch('post/new', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: {
+        id: "0000000", //Placeholder post ID
+        author: userName,
+        attendees: attendees,
+        location: location,
+        timeInterval: {
+          start: startDate,
+          end: endDate
+        },
+        chatId: "000000",
+        visibleTo: []
+      }
+    }).then(response => response.json());
+
+    if (response.ok) {
+      alert("Meal booked succesfully on server!");
+    } else {
+      alert("There was a problem booking meal!");
+    }
   }
 
   // Display all events of the selected date in card views
@@ -351,5 +384,5 @@
     "November",
     "December",
   ];
-})(jQuery);
+
 
