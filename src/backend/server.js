@@ -1,10 +1,11 @@
 import express from 'express';
 import {join} from 'path';
-import * as types from './types';
-import * as typeUtils from './typeUtils';
-import {USERS, POSTS} from '../sampleData/sampleData';
+import { URL } from 'url';
+import * as typeUtils from './typeUtils.js';
+import {USERS, POSTS} from '../sampleData/sampleData.js';
 
 
+const __dirname = new URL('.', import.meta.url).pathname;
 const app = express();
 const port = process.env.port ?? 8080;
 
@@ -23,7 +24,7 @@ app.get('/user/:userName/friends', (req, res) => {
 });
 
 app.post('/post/new', (req, res) => {
-  const post: types.Post = req.body;
+  const post = req.body;
   POSTS[post.id] = post;
   res.sendStatus(200);
 });

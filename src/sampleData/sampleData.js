@@ -1,10 +1,9 @@
 import { faker } from '@faker-js/faker';
-import * as types from '../backend/types';
 
 /** Map usernames to User objects. */
-export const USERS: Record<string, types.User> = {};
+export const USERS = {};
 /** Map post ID to Post objects. */
-export const POSTS: Record<string, types.Post> = {};
+export const POSTS = {};
 /** All users will be set to have the same availability. */
 const availability = [createSampleTimeInterval()]
 
@@ -22,9 +21,9 @@ for (let i = 0; i < 10; i++) {
 }
 
 
-export function createSampleUser(username?: string): types.User {
+export function createSampleUser(username = '') {
   return {
-    userName: username || faker.internet.userName(),
+    userName: username.length > 0 ? username : faker.internet.userName(),
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
     posts: [],
@@ -38,7 +37,7 @@ export function createSampleUser(username?: string): types.User {
 }
 
 
-export function createSamplePost(): types.Post {
+export function createSamplePost() {
   return {
     id: faker.datatype.uuid(),
     author: faker.internet.userName(),
@@ -52,7 +51,7 @@ export function createSamplePost(): types.Post {
 
 
 /** Create a sample hour-long TimeInterval within the next day. */
-export function createSampleTimeInterval(): types.TimeInterval {
+export function createSampleTimeInterval() {
   const hourInMillis =  1000 * 60 * 60;
   const start = faker.date.soon(1);
   const end = new Date(start.getTime() + hourInMillis);
