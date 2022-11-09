@@ -1,5 +1,9 @@
-(function ($) {
+
+
+
   "use strict";
+  import {getLoggedInUserName} from './utils/dataUtils.js';
+  import * as types from './backend/types.js';
 
   // Setup the calendar with the current date
   $(document).ready(function () {
@@ -142,6 +146,9 @@
       .unbind()
       .click({ date: event.data.date }, function () {
         let date = event.data.date;
+        let timeStart = document.getElementById("start-time-appt").value;
+        let timeEnd = document.getElementById("end-time-appt").value;
+        console.log("Appt range: " + timeStart + " to " + timeEnd);
         let name = $("#name").val().trim();
         //let count = parseInt($("#count").val().trim());
         let day = parseInt($(".active-date").html());
@@ -153,7 +160,7 @@
         } else {
           $("#dialog").hide(250);
           console.log("new event");
-          new_event_json(name, date, day);
+          new_event_json(name, date, day, timeStart, timeEnd);
           date.setDate(day);
           init_calendar(date);
         }
@@ -161,7 +168,7 @@
   }
 
   // Adds a json event to event_data
-  function new_event_json(name, date, day) {
+  function new_event_json(name, date, day, t1, t2) {
     let event = {
       occasion: name,
       //invited_count: count,
@@ -169,7 +176,50 @@
       month: date.getMonth() + 1,
       day: day,
     };
+    let startDate = new Date(date);
+    startDate.setDate(day);
+    startDate.setHours(t1.substring(0, 2));
+    startDate.setMinutes(t1.substring(3));
+    console.log("Start Date/Time: " + startDate);
+    //console.log("Hours: " + t1.substring(0, 2) + "///" + "Minutes: " + t1.substring(3));
+    //let endDate = ;
+    let endDate = new Date(date);
+    endDate.setDate(day);
+    endDate.setHours(t2.substring(0, 2));
+    endDate.setMinutes(t2.substring(3));
+    console.log("End Date/Time: " + endDate);
     event_data["events"].push(event);
+    sendPostToServer(startDate, endDate, name);
+
+  }
+
+ async function sendPostToServer(startDate, endDate, location) {
+    const userName = "testuser";
+    const attendees = ["user1", "user2"];
+    const response = await fetch('post/new', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: {
+        id: "0000000", //Placeholder post ID
+        author: userName,
+        attendees: attendees,
+        location: location,
+        timeInterval: {
+          start: startDate,
+          end: endDate
+        },
+        chatId: "000000",
+        visibleTo: []
+      }
+    }).then(response => response.json());
+
+    if (response.ok) {
+      alert("Meal booked succesfully on server!");
+    } else {
+      alert("There was a problem booking meal!");
+    }
   }
 
   // Display all events of the selected date in card views
@@ -177,7 +227,7 @@
     // Clear the dates container
     $(".events-container").empty();
     $(".events-container").show(250);
-    console.log(event_data["events"]);
+    //console.log(event_data["events"]);
     // If there are no events for this date, notify the user
     if (events.length === 0) {
       let event_card = $("<div class='event-card'></div>");
@@ -334,4 +384,5 @@
     "November",
     "December",
   ];
-})(jQuery);
+
+
