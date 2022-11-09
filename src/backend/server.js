@@ -3,6 +3,7 @@ import {join} from 'path';
 import { URL } from 'url';
 import * as typeUtils from './typeUtils.js';
 import {USERS, POSTS} from '../sampleData/sampleData.js';
+import * as sampleData from '../sampleData/sampleData.js';
 
 
 const __dirname = new URL('.', import.meta.url).pathname;
@@ -27,6 +28,12 @@ app.post('/post/new', (req, res) => {
   const post = req.body;
   POSTS[post.id] = post;
   res.sendStatus(200);
+});
+
+//Returns all posts for listing in calendar
+app.get('post/user', (req, res) => {
+  const postsByUser = sampleData.getPostsByUser(req.userName);
+  res.send(POSTS);
 });
 
 app.get('/post/:id', (req, res) => {

@@ -20,6 +20,17 @@ for (let i = 0; i < 10; i++) {
   POSTS[post.id] = post;
 }
 
+//Returns all the posts done by a given user
+export function getPostsByUser(username) {
+  const posts = {};
+  POSTS.forEach((value, key) => { //Iterate through posts
+    if (value.userName === username) {//If post username matches
+      posts[key] = value; //Add post to map
+    }
+  });
+  return posts;
+}
+
 
 export function createSampleUser(username = '') {
   return {
