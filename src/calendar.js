@@ -71,6 +71,24 @@
     // Append the last row and set the current year
     calendar_days.append(row);
     $(".year").text(year);
+
+  }
+
+  async function loadPostsFromServer() {
+    const response = await fetch('post/user', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: {
+        userName: getLoggedInUserName()
+      }
+    });
+    if (response.ok) {
+      for (let post in response.posts) {
+        new_event(post.timeInterval.start); //Add posts to calendar UI
+      }
+    }
   }
 
   // Get the number of days in a given month/year

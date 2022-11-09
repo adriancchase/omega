@@ -24,7 +24,7 @@ for (let i = 0; i < 10; i++) {
 export function getPostsByUser(username) {
   const posts = {};
   POSTS.forEach((value, key) => { //Iterate through posts
-    if (value.userName === username) {//If post username matches
+    if (value.author === username) {//If post username matches
       posts[key] = value; //Add post to map
     }
   });
