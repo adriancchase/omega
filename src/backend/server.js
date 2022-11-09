@@ -7,7 +7,7 @@ import {USERS, POSTS} from '../sampleData/sampleData.js';
 
 const __dirname = new URL('.', import.meta.url).pathname;
 const app = express();
-const port = process.env.port ?? 8080;
+const port = process.env.PORT ?? 8080;
 
 app.use(express.static(join(__dirname, '..')));
 app.get('/', (req, res) => {
