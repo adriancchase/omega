@@ -1,0 +1,1 @@
+web: npx ts-node ./src/backend/server.ts
