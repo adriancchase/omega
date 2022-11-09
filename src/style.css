@@ -44,3 +44,25 @@ a {
     right: 0;
 }
 
+.create-post-form {
+    display: table;
+    border-spacing: 0.5rem;
+}
+
+.create-post-form > div {
+    display: table-row;
+}
+
+.create-post-form > div > label {
+    display: table-cell;
+    padding-right: 0.5rem;
+}
+
+.create-post-form > div > input {
+    display: table-cell;
+}
+
+.create-post-form > div > button {
+    display: table-cell;
+}
+

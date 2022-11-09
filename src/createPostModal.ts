@@ -1,5 +1,6 @@
 import * as types from './backend/types';
 import {importHtml} from './utils/htmlUtils.js';
+import {getLoggedInUserName} from './utils/dataUtils.js';
 
 importHtml('createPostModal.html', 'importCreatePostModal').then(() => {
     document.getElementById('closeCreatePostModal')?.addEventListener('click', clearAvailableFriendsList);
@@ -9,7 +10,7 @@ importHtml('createPostModal.html', 'importCreatePostModal').then(() => {
 async function selectTime(): Promise<void> {
     console.log('Running selectTime function...');
     clearAvailableFriendsList();
-    const userName = 'nhansche'; // For testing
+    const userName = getLoggedInUserName(); // For testing
     const startTimeInput = (<HTMLInputElement>document.getElementById('startTimeInput')).value;
     const endTimeInput = (<HTMLInputElement>document.getElementById('endTimeInput')).value;
     

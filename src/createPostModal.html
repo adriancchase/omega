@@ -13,24 +13,27 @@
             <div class="col-8">
               <div class="row">
                 <div class="col">
-                  <form>
-                    <label for="startTimeInput">Start:</label>
-                    <input type="datetime-local" id="startTimeInput" name="startTimeInput">
+                  <form class="create-post-form">
+                    <div>
+                      <label for="locationInput">Location:</label>
+                      <input type="text" id="locationInput" name="locationInput">
+                    </div>
+                    <br>
+                    <div>
+                      <label for="startTimeInput">Start:</label>
+                      <input type="datetime-local" id="startTimeInput" name="startTimeInput">
+                    </div>
+                    <div>
+                      <label for="endTimeInput">End:</label>
+                      <input type="datetime-local" id="endTimeInput" name="endTimeInput">
+                    </div>
                   </form>
                 </div>
               </div>
               <div class="row">
                 <div class="col">
-                  <form>
-                    <label for="endTimeInput">End:</label>
-                    <input type="datetime-local" id="endTimeInput" name="endTimeInput">
-                  </form>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col">
-                  <button type="button" id="selectTimeButton" class="btn btn-primary">
-                    Select Time
+                  <button type="button" id="selectTimeButton" class="btn btn-primary" style="margin-top: 1rem;">
+                    Show Available Friends
                   </button>
                 </div>
               </div>
