@@ -32,6 +32,8 @@ export function createSampleUser(username?: string): types.User {
     friends: Object.keys(USERS),
     pictureUrl: faker.image.avatar(),
     feed: Object.keys(POSTS),
+    attending: [],
+    invited: [],
   };
 }
 

@@ -18,7 +18,11 @@
         // List of friends' usernames
         friends: string[]; 
         // IDs for posts displayed in user's feed 
-        feed: string[];     
+        feed: string[];  
+        // IDs of posts that the user is signed up to attend
+        attending: string[];
+        // IDs of posts that the user has been invited to, but the user has not accepted
+        invited: string[];  
     }
 
 ### UserView
@@ -118,6 +122,7 @@ Returns the feed (array of PostView objects) for the user with the given usernam
     GET user/{username}/availability
 
 Returns the availability field from the User object with the given username.
+
 
 ### Post
 
