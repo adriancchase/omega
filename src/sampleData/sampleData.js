@@ -11,14 +11,11 @@ const availability = [createSampleTimeInterval()]
 for (let i = 0; i < 10; i++) {
   const user = createSampleUser();
   USERS[user.userName] = user;
+  const post = createSamplePost(user.userName);
+  POSTS[post.id] = post;
 }
 const testUser = createSampleUser('nhansche');
 USERS[testUser.userName] = testUser;
-
-for (let i = 0; i < 10; i++) {
-  const post = createSamplePost();
-  POSTS[post.id] = post;
-}
 
 //Returns all the posts done by a given user
 export function getPostsByUser(username) {
@@ -31,6 +28,9 @@ export function getPostsByUser(username) {
   return posts;
 }
 
+// Add all posts to every user's feed
+Object.values(USERS).forEach(user => user.feed = Object.keys(POSTS));
+
 
 export function createSampleUser(username = '') {
   return {
@@ -41,17 +41,17 @@ export function createSampleUser(username = '') {
     availability,   // Set all users to have the same availability
     friends: Object.keys(USERS),
     pictureUrl: faker.image.avatar(),
-    feed: Object.keys(POSTS),
+    feed: [],
     attending: [],
     invited: [],
   };
 }
 
 
-export function createSamplePost() {
+export function createSamplePost(author) {
   return {
     id: faker.datatype.uuid(),
-    author: faker.internet.userName(),
+    author: author,
     attendees: Object.keys(USERS).slice(Math.floor(Math.random() * Object.keys(USERS).length)),
     location: 'Berkshire Dining Commons',
     timeInterval: createSampleTimeInterval(),

@@ -25,10 +25,25 @@ app.get('/user/:userName/friends', (req, res) => {
   }
 });
 
+app.get('/user/:userName/feed', (req, res) => {
+  const userName = req.params.userName;
+  if (userName in USERS) {
+    res.send(USERS[userName].feed.map(postId => typeUtils.getPostView(POSTS[postId], USERS)));
+  } else {
+    res.sendStatus(404);
+  }
+});
+
 app.post('/post/new', (req, res) => {
+  console.log(req);
   const post = req.body;
   post.id = Object.keys(POSTS).length;
   POSTS[post.id] = post;
+
+  const authorUser = USERS[post.author];
+  authorUser.feed.push(post.id);
+  authorUser.posts.push(post.id);
+  
   res.sendStatus(200);
 });
 
