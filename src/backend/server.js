@@ -41,8 +41,8 @@ app.post('/post/new', (req, res) => {
   POSTS[post.id] = post;
 
   const authorUser = USERS[post.author];
-  authorUser.feed.push(post.id);
-  authorUser.posts.push(post.id);
+  authorUser.feed.unshift(post.id);
+  authorUser.posts.unshift(post.id);
   
   res.sendStatus(200);
 });

@@ -2,17 +2,14 @@ import {getLoggedInUserName} from './utils/dataUtils.js';
 
 
 window.onload = async () => {
+    await displayPosts();
+};
+
+export async function displayPosts() {
     console.log('Loading posts...');
     const userName = getLoggedInUserName();
-    const feedPosts = await fetch(`user/${userName}/feed`).then(res => {
-        console.log(res);
-        return res.json();
-    });
-    console.log(JSON.stringify(feedPosts));
-    feedPosts.forEach(x => {
-        console.log(JSON.stringify(x));
-        createPost(x);
-    });
+    const feedPosts = await fetch(`user/${userName}/feed`).then(res => res.json());
+    feedPosts.forEach(createPost);
     console.log('Posts loaded successfully.');
 }
 

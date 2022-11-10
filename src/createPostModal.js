@@ -1,5 +1,6 @@
 import {importHtml} from './utils/htmlUtils.js';
 import {getLoggedInUserName} from './utils/dataUtils.js';
+import {displayPosts} from './script.js';
 
 importHtml('createPostModal.html', 'importCreatePostModal').then(() => {
     document.getElementById('closeCreatePostModal').addEventListener('click', reset);
@@ -56,6 +57,8 @@ async function createPost() {
 
     document.getElementById('createPostInfo').innerText = res.ok ? 'Post created successfully!' 
                                                                  : 'Failed to create post.';
+
+    await displayPosts();
 }
 
 function isAvailableAtTime(user, timeInterval) {
