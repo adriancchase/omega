@@ -2,12 +2,12 @@ import {importHtml} from './utils/htmlUtils.js';
 import {getLoggedInUserName} from './utils/dataUtils.js';
 
 importHtml('createPostModal.html', 'importCreatePostModal').then(() => {
-    document.getElementById('closeCreatePostModal')?.addEventListener('click', clearAvailableFriendsList);
-    document.getElementById('selectTimeButton')?.addEventListener('click', selectTime);
+    document.getElementById('closeCreatePostModal').addEventListener('click', reset);
+    document.getElementById('selectTimeButton').addEventListener('click', selectTime);
+    document.getElementById('createPostButton').addEventListener('click', createPost);
 });
 
 async function selectTime() {
-    console.log('Running selectTime function...');
     clearAvailableFriendsList();
     const userName = getLoggedInUserName();
     const startTimeInput = document.getElementById('startTimeInput').value;
@@ -21,10 +21,7 @@ async function selectTime() {
             start: new Date(startTimeInput),
             end: new Date(endTimeInput)
         };
-        console.log(`Start: ${JSON.stringify(timeInterval.start)}`);
-        console.log(`End: ${JSON.stringify(timeInterval.end)}`);
         const availableFriends = friends.filter(friend => isAvailableAtTime(friend, timeInterval));
-        console.log(`Available Friends: ${JSON.stringify(availableFriends)}`);
         const availableFriendsList = document.getElementById('availableFriendsList');
         if (availableFriendsList) {
             availableFriends.forEach(friend => showAvailableFriend(friend, availableFriendsList));
@@ -35,6 +32,31 @@ async function selectTime() {
     console.log('selectTime function finished executing.');
 }
 
+async function createPost() {
+    const start = document.getElementById('startTimeInput').value;
+    const end = document.getElementById('endTimeInput').value;
+    const location = document.getElementById('locationInput').value;
+    const userName = getLoggedInUserName();
+
+    const res = await fetch('post/new', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            author: userName,
+            attendees: [],
+            location,
+            timeInterval: {start, end},
+            chatId: '',
+            visibleTo: [userName],
+        })
+    });
+
+    document.getElementById('createPostInfo').innerText = res.ok ? 'Post created successfully!' 
+                                                                 : 'Failed to create post.';
+}
 
 function isAvailableAtTime(user, timeInterval) {
     for (const {start, end} of user.availability) {
@@ -70,4 +92,10 @@ function clearAvailableFriendsList() {
     if (availableFriendsList) {
         availableFriendsList.innerHTML = '';
     }
+}
+
+function reset() {
+    clearAvailableFriendsList();
+    document.getElementById('createPostInfo').innerText = '';
+    document.getElementById('locationInput').value = '';
 }

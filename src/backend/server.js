@@ -11,6 +11,7 @@ const app = express();
 const port = process.env.PORT ?? 8080;
 
 app.use(express.static(join(__dirname, '..')));
+app.use(express.json());
 app.get('/', (req, res) => {
   res.sendFile(join(__dirname, '../index.html'));
 });
@@ -26,6 +27,7 @@ app.get('/user/:userName/friends', (req, res) => {
 
 app.post('/post/new', (req, res) => {
   const post = req.body;
+  post.id = Object.keys(POSTS).length;
   POSTS[post.id] = post;
   res.sendStatus(200);
 });
