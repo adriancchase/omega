@@ -6,6 +6,7 @@ window.onload = async () => {
 };
 
 export async function displayPosts() {
+    document.getElementById('feed').innerHTML = '';
     console.log('Loading posts...');
     const userName = getLoggedInUserName();
     const feedPosts = await fetch(`user/${userName}/feed`).then(res => res.json());

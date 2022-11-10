@@ -47,7 +47,7 @@ async function createPost() {
         },
         body: JSON.stringify({
             author: userName,
-            attendees: [],
+            attendees: [userName],
             location,
             timeInterval: {start, end},
             chatId: '',
