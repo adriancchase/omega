@@ -48,8 +48,8 @@ app.post('/post/new', (req, res) => {
 });
 
 //Returns all posts for listing in calendar
-app.get('post/user', (req, res) => {
-  const postsByUser = sampleData.getPostsByUser(req.userName);
+app.get('post/:userName', (req, res) => {
+  const postsByUser = sampleData.getPostsByUser(req.params.userName);
   res.send(postsByUser);
 });
 
