@@ -1,11 +1,11 @@
 import express from "express";
 import { join } from "path";
-import { URL } from "url";
+import { URL, fileURLToPath } from "url";
 import * as typeUtils from "./typeUtils.js";
 import { USERS, POSTS } from "../sampleData/sampleData.js";
 import * as sampleData from "../sampleData/sampleData.js";
 
-const __dirname = new URL(".", import.meta.url).pathname;
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
 const app = express();
 const port = process.env.PORT ?? 8080;
 
@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
   res.sendFile(join(__dirname, "../index.html"));
 });
 
-app.post();
+
 app.get("/user/:userName/friends", (req, res) => {
   const userName = req.params.userName;
   if (userName in USERS) {
