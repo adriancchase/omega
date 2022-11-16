@@ -4,15 +4,18 @@ import { URL, fileURLToPath } from "url";
 import * as typeUtils from "./typeUtils.js";
 import { USERS, POSTS } from "../sampleData/sampleData.js";
 import * as sampleData from "../sampleData/sampleData.js";
+import { userRouter } from './routes/user.router.js';
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 const app = express();
 const port = process.env.PORT ?? 8080;
 
-app.use(express.static(join(__dirname, "..")));
+app.use(express.static(join(__dirname, "../../src")));
+app.use('/user', userRouter);
 app.use(express.json());
+
 app.get("/", (req, res) => {
-  res.sendFile(join(__dirname, "../index.html"));
+  res.sendFile(join(__dirname, "../../src/index.html"));
 });
 
 

@@ -20,7 +20,7 @@ USERS[testUser.userName] = testUser;
 //Returns all the posts done by a given user
 export function getPostsByUser(username) {
   const posts = {};
-  POSTS.forEach((value, key) => { //Iterate through posts
+  (POSTS as any).forEach((value, key) => { //Iterate through posts
     if (value.author === username) {//If post username matches
       posts[key] = value; //Add post to map
     }
@@ -29,7 +29,7 @@ export function getPostsByUser(username) {
 }
 
 // Add all posts to every user's feed
-Object.values(USERS).forEach(user => user.feed = Object.keys(POSTS));
+Object.values(USERS).forEach(user => (user as any).feed = Object.keys(POSTS));
 
 
 export function createSampleUser(username = '') {
