@@ -1,13 +1,13 @@
 import express from 'express';
 import {ObjectId} from 'mongodb';
 import {getDatabaseCollections} from '../services/database.service.js';
-import {User, UserDB, UserView, isUser} from '../models/User.js';
-import {getUserView} from '../typeUtils.js';
+import {getUserView, getPostView} from '../typeUtils.js';
 
 
 export const userRouter = express.Router();
 userRouter.use(express.json());
-const userCollection = await getDatabaseCollections().then(collections => collections.user);
+const collections = await getDatabaseCollections();
+
 
 /**
  * POST endpoint for creating a new user.
@@ -16,7 +16,7 @@ const userCollection = await getDatabaseCollections().then(collections => collec
 userRouter.post('/new', async (req, res) => {
     const user = req.body;
     try {
-        const result = await userCollection.insertOne(user);
+        const result = await collections.user.insertOne(user);
         result
             ? res.status(201).send(`Successfully created a new user '${user.userName}' with id '${result.insertedId}'.`)
             : res.status(500).send('Failed to create a new user.');
@@ -33,7 +33,7 @@ userRouter.post('/new', async (req, res) => {
  */
 userRouter.get('/', async (req, res) => {
     try {
-        const users = await userCollection.find({}).toArray();
+        const users = await collections.user.find({}).toArray();
         res.status(200).send(users);
     } catch (err) {
         res.status(500).send(err.message)
@@ -49,7 +49,7 @@ userRouter.get('/:userName', async (req, res) => {
     const userName = req?.params?.userName;
     try {
         const query = {userName};
-        const user = await userCollection.findOne(query);
+        const user = await collections.user.findOne(query);
         res.status(200).send(user);
     } catch (err) {
         res.status(404).send(`Unable to find user '${userName}'.`);
@@ -58,8 +58,7 @@ userRouter.get('/:userName', async (req, res) => {
 
 
 /**
- * TODO
- * GET endpoint for fetching .
+ * GET endpoint for fetching friends of the user with the given userName.
  * Response: UserView[]
  */
  userRouter.get('/:userName/friends', async (req, res) => {
@@ -67,12 +66,32 @@ userRouter.get('/:userName', async (req, res) => {
     try {
         const query = {userName};
         const options = {projection: {_id: 0, friends: 1}}; // Select friends only
-        const friends = await userCollection.findOne<{friends: string[]}>(query, options)
-                                            .then(res => res?.friends);
+        const friends = await collections.user.findOne(query, options)
+                                              .then(res => res?.friends);
         if (friends) {
             const query = {userName: {$in: friends}};
-            const friendsView = await userCollection.find(query).toArray().then(arr => arr.map(getUserView));
+            const friendsView = await collections.user.find(query).toArray().then(arr => arr.map(getUserView));
             res.status(200).send(friendsView);
+        } else {
+            res.status(404).send(`Unable to find user '${userName}'.`);
+        }
+    } catch (err) {
+        res.status(404).send(`Unable to find user '${userName}'.`);
+    }
+});
+
+
+userRouter.get('/:userName/friends', async (req, res) => {
+    const userName = req?.params?.userName;
+    try {
+        const query = {userName};
+        const options = {projection: {_id: 0, feed: 1}}; // Select feed only
+        const feedPostIds = await collections.user.findOne(query, options)
+                                                  .then(res => res?.feed.map(id => new ObjectId(id)));
+        if (feedPostIds) {
+            const query = {_id: {$in: feedPostIds}};
+            const postsView = await collections.post.find(query).toArray().then(arr => arr.map(getPostView));
+            res.status(200).send(postsView);
         } else {
             res.status(404).send(`Unable to find user '${userName}'.`);
         }
@@ -86,7 +105,7 @@ userRouter.put('/:userName', async (req, res) => {
     const userName = req?.params?.userName;
     try {
         const updatedPartialUser = req.body;
-        const result = await userCollection.updateOne({userName}, {$set: updatedPartialUser});
+        const result = await collections.user.updateOne({userName}, {$set: updatedPartialUser});
         result
             ? res.status(200).send(`Successfully updated user '${userName}'.`)
             : res.status(304).send(`User '${userName}' not updated.`);
@@ -100,7 +119,7 @@ userRouter.delete('/:userName', async (req, res) => {
     const userName = req?.params?.userName;
     try {
         const query = {userName};
-        const result = await userCollection.deleteOne(query);
+        const result = await collections.user.deleteOne(query);
 
         if (result && result.deletedCount) {
             res.status(202).send(`Successfully removed user '${userName}'`);
