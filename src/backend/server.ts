@@ -19,17 +19,6 @@ app.get("/", (req, res) => {
 });
 
 
-app.get("/user/:userName/friends", (req, res) => {
-  const userName = req.params.userName;
-  if (userName in USERS) {
-    res.send(
-      USERS[userName].friends.map((u) => typeUtils.getUserView(USERS[u]))
-    );
-  } else {
-    res.sendStatus(404);
-  }
-});
-
 app.get("/user/:userName/feed", (req, res) => {
   const userName = req.params.userName;
   if (userName in USERS) {
