@@ -1,38 +1,45 @@
 import { faker } from '@faker-js/faker';
+import {ObjectId, WithId} from 'mongodb';
+import { Post } from '../backend/models/Post';
+import { User } from '../backend/models/User';
+import { getDatabaseCollections } from '../backend/services/database.service.js';
+
+const collections = await getDatabaseCollections();
 
 /** Map usernames to User objects. */
-export const USERS = {};
+export const USERS: Record<string, User> = {};
 /** Map post ID to Post objects. */
-export const POSTS = {};
+export const POSTS: Record<string, Post> = {};
 /** All users will be set to have the same availability. */
-const availability = [createSampleTimeInterval()]
+const availability = [createSampleTimeInterval()];
 
+createSampleData();
 
-for (let i = 0; i < 10; i++) {
-  const user = createSampleUser();
-  USERS[user.userName] = user;
-  const post = createSamplePost(user.userName);
-  POSTS[post.id] = post;
+export function createSampleData() {
+  for (let i = 0; i < 10; i++) {
+    const user = createSampleUser();
+    USERS[user.userName] = user;
+    const post = createSamplePost(user.userName);
+    POSTS[post._id.toString()] = post;
+  }
+  const testUser = createSampleUser('nhansche');
+  USERS[testUser.userName] = testUser;
+
+  // Add all posts to every user's feed
+  Object.values(USERS).forEach(user => user.feed = Object.keys(POSTS));
+
+  collections.user.insertMany(Object.values(USERS));
+  collections.post.insertMany(Object.values(POSTS));
 }
-const testUser = createSampleUser('nhansche');
-USERS[testUser.userName] = testUser;
+
 
 //Returns all the posts done by a given user
 export function getPostsByUser(username) {
-  const posts = {};
-  (POSTS as any).forEach((value, key) => { //Iterate through posts
-    if (value.author === username) {//If post username matches
-      posts[key] = value; //Add post to map
-    }
-  });
-  return posts;
+  return USERS[username].posts;
 }
 
-// Add all posts to every user's feed
-Object.values(USERS).forEach(user => (user as any).feed = Object.keys(POSTS));
 
-
-export function createSampleUser(username = '') {
+export function createSampleUser(username: string = ''): User {
   return {
     userName: username.length > 0 ? username : faker.internet.userName(),
     firstName: faker.name.firstName(),
@@ -48,9 +55,9 @@ export function createSampleUser(username = '') {
 }
 
 
-export function createSamplePost(author) {
+export function createSamplePost(author: string): WithId<Post> {
   return {
-    id: faker.datatype.uuid(),
+    _id: new ObjectId(faker.database.mongodbObjectId()),
     author: author,
     attendees: Object.keys(USERS).slice(Math.floor(Math.random() * Object.keys(USERS).length)),
     location: 'Berkshire Dining Commons',

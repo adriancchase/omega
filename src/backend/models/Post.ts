@@ -1,9 +1,8 @@
-import {User, UserView} from './User.js';
+import {WithId} from 'mongodb';
+import {UserView} from './User.js';
 import {TimeInterval} from './TimeInterval';
 
 export interface Post {
-    /** Post ID */
-    id: string;
     /** Username of author */
     author: string; 
     /** List of usernames for users attending the meal */      
@@ -24,3 +23,5 @@ export interface PostView {
     location: string;
     timeInterval: TimeInterval;
 }
+
+export type PostDB = WithId<Post>;
