@@ -81,7 +81,7 @@ userRouter.get('/:userName', async (req, res) => {
 });
 
 
-userRouter.get('/:userName/friends', async (req, res) => {
+userRouter.get('/:userName/feed', async (req, res) => {
     const userName = req?.params?.userName;
     try {
         const query = {userName};
