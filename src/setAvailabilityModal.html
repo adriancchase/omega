@@ -2,19 +2,51 @@
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="creatPostModalLabel">Create Post</h4>
+          <h4 class="modal-title" id="creatPostModalLabel">Set Availability</h4>
           <button id="closeCreatePostModal" type="button" class="close" data-dismiss="modal">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <div class="container-fluid">
-            
+            <div class="row">
+                <div class="col">
+                     <template id="availability-item">
+                      <div class="row" style ="padding-top: 1rem" style = "text-align: left;">
+                        <div class="col">
+                            <div class="dropdown">
+                                <a
+                                  href="#"
+                                  class="container align-items-center link-dark text-decoration-none dropdown-toggle"
+                                  data-bs-toggle="dropdown"
+                                  aria-expanded="false"
+                                >
+                                  <img class = "img-pfp"
+                                    src="https://github.com/mdo.png"
+                                    alt=""
+                                    class="rounded-circle me-2"
+                                  />
+                                  <div class="status-circle">
+                                  </div>
+                                  <strong>John Smith</strong>
+                                </a>
+                              </div>
+                              
+                          
+                        </div>
+                      </div>
+                     </template>            
+                </div>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
-          <span id="createPostInfo" style="text-align: left;"></span>
-          <button id="createPostButton" type="button" class="btn btn-primary">Create</button>
+          <span id="setAvailabilityInfo" style="text-align: left;"></span>
+          <label for="startTimeInput">Start:</label>
+            <input type="datetime-local" id="startTimeInput" name="startTimeInput">
+            <label for="endTimeInput">End:</label>
+            <input type="datetime-local" id="endTimeInput" name="endTimeInput">
+          <button id="setAvailabilityBtn" type="button" class="btn btn-primary">Add</button>
         </div>
       </div>
     </div>
