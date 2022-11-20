@@ -42,8 +42,6 @@ Contains a subset of the fields in User, and is used to display a user's public 
 ### Post
 
     {
-        // Post ID
-        id: string;
         // Username of author
         author: string; 
         // List of usernames for users attending the meal        
@@ -156,6 +154,10 @@ Sends a message to the chat with the given ID. The request body must be a Messag
 
 
 # Project Info
+
+## Heroku Link
+
+https://foodle-website.herokuapp.com/
 
 ## Screenshots
 
