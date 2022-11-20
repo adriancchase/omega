@@ -29,3 +29,32 @@ function Login() {
 
   localStorage.setItem("name", JSON.stringify(a));
 }
+
+async function createPost() {
+  const start = document.getElementById("startTimeInput").value;
+  const end = document.getElementById("endTimeInput").value;
+  const location = document.getElementById("locationInput").value;
+  const userName = getLoggedInUserName();
+
+  const res = await fetch("user/new", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      author: userName,
+      attendees: [userName],
+      location,
+      timeInterval: { start, end },
+      chatId: "",
+      visibleTo: [userName],
+    }),
+  });
+
+  document.getElementById("createPostInfo").innerText = res.ok
+    ? "Post created successfully!"
+    : "Failed to create post.";
+
+  await displayPosts();
+}
