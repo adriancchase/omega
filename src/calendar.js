@@ -3,7 +3,7 @@
 
   "use strict";
   import {getLoggedInUserName} from './utils/dataUtils.js';
-  import * as types from './backend/types.js';
+  import * as types from './backend/types.js'; //Make sure types.ts is compiled
 
   // Setup the calendar with the current date
   $(document).ready(function () {
