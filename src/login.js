@@ -1,29 +1,14 @@
 function Login() {
-  const a = new Array();
-  const up1 = new Object();
-  const up2 = new Object();
+  const hash = Object.fromEntries(a.map((e) => [e.name, e.password]));
 
-  up1 = {
-    name: "[abcd@gmail.com](mailto:abcd@gmail.com)",
-    password: btoa("abc@12"),
-  };
+  var username = document.getElementById("uname").value;
+  var password = document.getElementById("psw").value;
 
-  up2 = {
-    name: "[bcd@gmail.com](mailto:bcd@gmail.com)",
-    password: btoa("bcd@12"),
-  };
-
-  a.push(up1);
-  a.push(up2);
-
-  const username = document.getElementById("exampleInputEmail1").value;
-  const password = document.getElementById("exampleInputPassword1").value;
-
-  sessionStorage.setItem("currentloggedin", username);
-
-  localStorage.setItem("all_users", JSON.stringify(a));
-
-  a = JSON.parse(localStorage.getItem("all_users"));
-
-  a.push({ name: username, password: password });
+  for (let key of hash) {
+    if (key[0] === username && key[1] === atob(password)) {
+      alert("Login successful");
+    } else {
+      alert("Login fail");
+    }
+  }
 }
