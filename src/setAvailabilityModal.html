@@ -11,9 +11,11 @@
           <div class="container-fluid">
             <div class="row">
                 <div class="col">
-                     <ul class="list-group">
-                      <li class="list-group-item">Item 1<button id="removeAvailabilityBtn" type="button" class="btn btn-primary" style="float: right;">Remove</button></li>
-                      <li class="list-group-item">Item 1<button id="removeAvailabilityBtn" type="button" class="btn btn-primary" style="float: right;">Remove</button></li>
+                     <ul class="list-group" id="availability-group-container">
+                      <template id="availability-item-template">
+                        <li class="list-group-item" id="li1">Item 1<button type="button" class="btn btn-primary" style="float: right;">Remove</button></li>
+                      </template>
+                      
                      </ul>            
                 </div>
             </div>
