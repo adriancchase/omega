@@ -9,8 +9,6 @@ userRouter.use(express.json());
 const collections = await getDatabaseCollections();
 
 
-
-
 /**
  * POST endpoint for creating a new user.
  * Request: User object
@@ -120,6 +118,9 @@ userRouter.get('/:userName/feed', async (req, res) => {
                 },
                 {
                     $project: postViewProjection
+                },
+                {
+                    $sort: {'timeInterval.start': 1}
                 }
             ]).toArray();
             res.status(200).send(postsView);
