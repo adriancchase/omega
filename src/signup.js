@@ -16,8 +16,8 @@ function Signup() {
   a.push(up1);
   a.push(up2);
 
-  const username = document.getElementById("exampleInputEmail1").value;
-  const password = document.getElementById("exampleInputPassword1").value;
+  const username = document.getElementById("uname").value;
+  const password = document.getElementById("psw").value;
 
   sessionStorage.setItem("currentloggedin", username);
 
@@ -26,4 +26,33 @@ function Signup() {
   a = JSON.parse(localStorage.getItem("all_users"));
 
   a.push({ name: username, password: password });
+}
+
+async function createUser() {
+  const start = document.getElementById("startTimeInput").value;
+  const end = document.getElementById("endTimeInput").value;
+  const location = document.getElementById("locationInput").value;
+  const userName = getLoggedInUserName();
+
+  const res = await fetch("user/new", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      author: userName,
+      attendees: [userName],
+      location,
+      timeInterval: { start, end },
+      chatId: "",
+      visibleTo: [userName],
+    }),
+  });
+
+  document.getElementById("createPostInfo").innerText = res.ok
+    ? "Post created successfully!"
+    : "Failed to create post.";
+
+  await displayPosts();
 }
