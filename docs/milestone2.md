@@ -42,18 +42,18 @@ Contains a subset of the fields in User, and is used to display a user's public 
 ### Post
 
     {
-        // Username of author
+        /** Post creation timestamp. */
+        timestamp: Date;
+        /** Username of author */
         author: string; 
-        // List of usernames for users attending the meal        
+        /** List of usernames for users attending the meal */      
         attendees: string[];   
-        // Name of restaurant 
+        /** Name of restaurant */
         location: string;       
-        // Meal start/end times
+        /** Meal start/end times */
         timeInterval: TimeInterval;  
-        // ID of chat created for attendees   
-        chatId: string;     
-        // Usernames of users who this post will be made visible to    
-        visibleTo: string[];    
+        /** ID of chat created for attendees */   
+        chatId: string;         
     }
 
 

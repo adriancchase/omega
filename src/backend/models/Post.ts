@@ -3,6 +3,8 @@ import {UserView} from './User.js';
 import {TimeInterval} from './TimeInterval';
 
 export interface Post {
+    /** Post creation timestamp. */
+    timestamp: Date;
     /** Username of author */
     author: string; 
     /** List of usernames for users attending the meal */      
@@ -12,9 +14,7 @@ export interface Post {
     /** Meal start/end times */
     timeInterval: TimeInterval;  
     /** ID of chat created for attendees */   
-    chatId: string;     
-    /** Usernames of users who this post will be made visible to */
-    visibleTo: string[];    
+    chatId: string;         
 }
 
 export interface PostView {
