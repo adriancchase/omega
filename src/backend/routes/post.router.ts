@@ -17,7 +17,7 @@ postRouter.post('/new', async (req, res) => {
             const postIdString = postInsertResult.insertedId.toString();
             const authorUpdateResult = await collections.user.updateOne(
                 { userName: post.author },
-                { $push: { posts: postIdString, feed: postIdString } }
+                { $push: { posts: postIdString, feed: postIdString, attending: postIdString } }
             );
             authorUpdateResult
                 ? res.status(201).send(`Successfully created a new post with id '${postInsertResult.insertedId}'.`)
