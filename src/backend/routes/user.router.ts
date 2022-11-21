@@ -1,6 +1,6 @@
 import express from 'express';
 import {ObjectId} from 'mongodb';
-import {getDatabaseCollections} from '../services/database.service.js';
+import {getDatabaseCollections, userViewProjection, postViewProjection} from '../services/database.service.js';
 import {getUserView, getPostView} from '../typeUtils.js';
 
 
@@ -36,7 +36,7 @@ userRouter.get('/', async (req, res) => {
         const users = await collections.user.find({}).toArray();
         res.status(200).send(users);
     } catch (err) {
-        res.status(500).send(err.message)
+        res.status(500).send(err.message);
     }
 });
 
@@ -76,6 +76,7 @@ userRouter.get('/:userName', async (req, res) => {
             res.status(404).send(`Unable to find user '${userName}'.`);
         }
     } catch (err) {
+        console.error(err.message);
         res.status(404).send(`Unable to find user '${userName}'.`);
     }
 });
@@ -89,13 +90,45 @@ userRouter.get('/:userName/feed', async (req, res) => {
         const feedPostIds = await collections.user.findOne(query, options)
                                                   .then(res => res?.feed.map(id => new ObjectId(id)));
         if (feedPostIds) {
-            const query = {_id: {$in: feedPostIds}};
-            const postsView = await collections.post.find(query).toArray().then(arr => arr.map(getPostView));
+            const postsView = await collections.post.aggregate([
+                {
+                    $match: { _id: { $in: feedPostIds } }
+                },
+                {
+                    $lookup: {
+                        from: 'users',
+                        let: { attendees: '$attendees' },
+                        pipeline: [
+                            { $match: { $expr: {$in: ['$userName', '$$attendees'] } } },
+                            { $project: userViewProjection }
+                        ],
+                        as: 'attendees'
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'users',
+                        let: { author: '$author' },
+                        pipeline: [
+                            { $match: { $expr: {$eq: ['$userName', '$$author'] } } },
+                            { $project: userViewProjection }
+                        ],
+                        as: 'author'
+                    }
+                },
+                {
+                    $project: postViewProjection
+                },
+                {
+                    $sort: {'timeInterval.start': 1}
+                }
+            ]).toArray();
             res.status(200).send(postsView);
         } else {
             res.status(404).send(`Unable to find user '${userName}'.`);
         }
     } catch (err) {
+        console.error(err.message);
         res.status(404).send(`Unable to find user '${userName}'.`);
     }
 });

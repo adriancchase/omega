@@ -63,7 +63,7 @@ export function createSamplePost(author: string): WithId<Post> {
     location: 'Berkshire Dining Commons',
     timeInterval: createSampleTimeInterval(),
     chatId: faker.datatype.uuid(),
-    visibleTo: Object.keys(USERS),    // Visible to all users.
+    timestamp: faker.date.recent()
   };
 }
 
