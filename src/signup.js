@@ -1,3 +1,7 @@
+"use strict";
+import { getLoggedInUserName } from "./utils/dataUtils.js";
+import * as types from "./backend/types.js"; //Make sure types.ts is compiled
+
 function Signup() {
   const a = new Array();
   const up1 = new Object();
