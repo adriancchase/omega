@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "node dist/backend/server.js"
+    "start": "node dist/backend/server.js",
+    "postinstall": "tsc"
   },
   "type": "module",
   "engines": {
