@@ -24,6 +24,7 @@ export async function getDatabaseCollections(): Promise<Collections> {
             user: db.collection('users'),
             post: db.collection('posts'),
         };
+        collections.user.createIndex({userName: 1}, {unique: true});
     }
     
     return Promise.resolve(collections);
