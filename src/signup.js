@@ -1,4 +1,4 @@
-function Login() {
+function Signup() {
   const a = new Array();
   const up1 = new Object();
   const up2 = new Object();
