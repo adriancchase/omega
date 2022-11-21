@@ -13,7 +13,6 @@ export const POSTS: Record<string, Post> = {};
 /** All users will be set to have the same availability. */
 const availability = [createSampleTimeInterval()];
 
-createSampleData();
 
 export function createSampleData() {
   for (let i = 0; i < 10; i++) {

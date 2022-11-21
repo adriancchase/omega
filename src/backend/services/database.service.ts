@@ -2,9 +2,6 @@ import * as mongoDB from 'mongodb';
 import {User} from '../models/User';
 import {Post} from '../models/Post';
 
-// TEST
-process.env.MONGODB_URI = "mongodb+srv://admin:Shaggy5123@cluster-dev-0.hctxdwm.mongodb.net/?retryWrites=true&w=majority";
-
 
 export interface Collections {
     user: mongoDB.Collection<User>;
@@ -24,6 +21,7 @@ export async function getDatabaseCollections(): Promise<Collections> {
             user: db.collection('users'),
             post: db.collection('posts'),
         };
+        collections.user.createIndex({userName: 1}, {unique: true});
     }
     
     return Promise.resolve(collections);
