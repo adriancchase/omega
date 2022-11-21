@@ -17,9 +17,6 @@ app.get("/", (req, res) => {
   res.sendFile(join(__dirname, "../../src/index.html"));
 });
 
-app.post("/user/new", (req, res) => {
-  console.log(req);
-});
 
 app.post("/post/new", (req, res) => {
   console.log(req);
