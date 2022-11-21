@@ -128,7 +128,7 @@ Returns the availability field from the User object with the given username.
 
     POST post/new
 
-Creates a new post. The request body must conform to the Post object schema, minus the 'id' field which will be automatically generated.
+Creates a new post. The request body must conform to the Post object schema, minus the 'id' and 'timestamp' fields which will be automatically generated.
 
     GET post/{id}
 
