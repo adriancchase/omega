@@ -11,6 +11,8 @@ const collections = await getDatabaseCollections();
 // TODO: Make post insert and author update a single transaction
 postRouter.post('/new', async (req, res) => {
     const post = req.body;
+    post.timeInterval.start = new Date(post.timeInterval.start);
+    post.timeInterval.end = new Date(post.timeInterval.end);
     post.timestamp = new Date();
     try {
         const postInsertResult = await collections.post.insertOne(post);
