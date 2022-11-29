@@ -5,6 +5,7 @@ window.onload = async () => {
     await displayPosts();
 };
 
+
 export async function displayPosts() {
     document.getElementById('feed').innerHTML = '';
     console.log('Loading posts...');
@@ -33,9 +34,24 @@ function createPost(postView) {
 
     // Set post start/end times
     const postStartTimeText = newPost.querySelector('#postStartTimeText');
-    postStartTimeText.innerText = postView.timeInterval.start;
+    postStartTimeText.innerText = formatPostDate(postView.timeInterval.start);
     const postEndTimeText = newPost.querySelector('#postEndTimeText');
-    postEndTimeText.innerText = postView.timeInterval.end;
+    postEndTimeText.innerText = formatPostDate(postView.timeInterval.end);
 
     document.getElementById('feed').appendChild(newPost);
+}
+
+
+function formatPostDate(date) {
+    const d = new Date(date);
+    let h = d.getHours();
+    let p = 'AM';
+    if (h > 12) {
+        h = d.getHours() % 12;
+        p = 'PM';
+    } else if (d.getHours() === 0) {
+        h = 12;  
+    } 
+
+    return `${d.getMonth() + 1}/${d.getDate()} ${h}:${d.getMinutes()} ${p}`;
 }
