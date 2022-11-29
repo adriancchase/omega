@@ -15,7 +15,8 @@
         "preserveConstEnums": true,
         "sourceMap": true,
         "outDir": "dist",
-        "declaration": true
+        "declaration": true,
+        "skipDefaultLibCheck": true
     },
     "include": ["src"]
 }
