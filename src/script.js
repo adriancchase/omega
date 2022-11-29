@@ -32,17 +32,17 @@ function createPost(postView) {
     const postLocationText = newPost.querySelector('#postLocationText');
     postLocationText.innerText = postView.location;
 
-    // Set post start/end times
-    const postStartTimeText = newPost.querySelector('#postStartTimeText');
-    postStartTimeText.innerText = formatPostDate(postView.timeInterval.start);
-    const postEndTimeText = newPost.querySelector('#postEndTimeText');
-    postEndTimeText.innerText = formatPostDate(postView.timeInterval.end);
+    // Set post date and start/end times
+    const postMeetingDateField = newPost.querySelector('#postMeetingDate');
+    postMeetingDateField.innerText = formatDayMonth(postView.timeInterval.start);
+    const postTimeIntervalField = newPost.querySelector('#postTimeInterval');
+    postTimeIntervalField.innerText = `${formatTime(postView.timeInterval.start)} - ${formatTime(postView.timeInterval.end)}`;
 
     document.getElementById('feed').appendChild(newPost);
 }
 
 
-function formatPostDate(date) {
+function formatTime(date) {
     const d = new Date(date);
     let h = d.getHours();
     let p = 'AM';
@@ -53,5 +53,11 @@ function formatPostDate(date) {
         h = 12;  
     } 
 
-    return `${d.getMonth() + 1}/${d.getDate()} ${h}:${d.getMinutes()} ${p}`;
+    return `${h}:${d.getMinutes()} ${p}`;
+}
+
+
+function formatDayMonth(date) {
+    const d = new Date(date);
+    return `${d.toLocaleString('default', { month: 'long' })} ${d.getDate()}`;
 }
