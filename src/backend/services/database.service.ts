@@ -1,3 +1,4 @@
+import * as dotenv from 'dotenv';
 import * as mongoDB from 'mongodb';
 import {User} from '../models/User';
 import {Post} from '../models/Post';
@@ -13,6 +14,7 @@ let collections: Collections | undefined = undefined;
 
 
 export async function getDatabaseCollections(): Promise<Collections> {
+    dotenv.config();
     if (!collections) {
         const dbUri = process.env.MONGODB_URI as string;
         const client = await new mongoDB.MongoClient(dbUri).connect();
