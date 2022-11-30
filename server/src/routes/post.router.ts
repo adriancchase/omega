@@ -53,7 +53,7 @@ postRouter.get('/:id', async (req, res) => {
  *      200 -- Username succesfully added to post attendees list.
  *      400 -- Request body contains no userName field.
  *      500 -- Update operation failed.
- * Response Body: {error: string} if response code is 400, else none.
+ * Response Body: None if response code is 200, else {error: string}.
  */
 postRouter.put('/:id/join', async (req, res) => {
     const postId = new ObjectId(req?.params?.id);
