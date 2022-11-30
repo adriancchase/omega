@@ -36,7 +36,7 @@ export const userViewProjection = {
     lastName: 1,
     pictureUrl: 1,
     availability: 1
-};
+} as const;
 
 export const postViewProjection = {
     _id: 0,
@@ -44,4 +44,4 @@ export const postViewProjection = {
     attendees: 1,
     location: 1,
     timeInterval: 1
-};
+} as const;
