@@ -1,7 +1,7 @@
 import express from 'express';
 import {ObjectId} from 'mongodb';
 import {getDatabaseCollections, userViewProjection, postViewProjection} from '../services/database.service.js';
-import {getUserView, getPostView} from '../typeUtils.js';
+import { getUserView } from '../typeUtils.js';
 
 
 export const userRouter = express.Router();

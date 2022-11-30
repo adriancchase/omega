@@ -1,5 +1,5 @@
-import { ObjectId, WithId } from 'mongodb';
-import { TimeInterval, isTimeInterval } from './TimeInterval.js';
+import { WithId } from 'mongodb';
+import { TimeInterval } from './TimeInterval.js';
 
 
 export interface User {
@@ -34,38 +34,3 @@ export type UserView = Pick<User,
 >;
 
 export type UserDB = WithId<User>;
-
-export function isUser(obj: Object): obj is User {
-    const containsStringFields = [
-        'userName', 
-        'firstName', 
-        'lastName', 
-        'pictureUrl'
-    ].reduce((acc, key) => acc && typeof obj[key] === 'string', true);
-
-    if (containsStringFields) {
-        const avKey = 'availability';
-        const containsTimeIntervalField = avKey in obj 
-            && typeof obj[avKey] === 'object' 
-            && isTimeInterval(obj[avKey]);
-
-        if (containsTimeIntervalField) {
-            const containsStringArrayFields = [
-                'posts',
-                'friends',
-                'feed',
-                'attending',
-                'invited'
-            ].reduce(
-                (acc, key) => acc 
-                              && Array.isArray(obj[key]) 
-                              && (!obj[key].length || typeof obj[key][0] === 'string'), 
-                true
-            );
-            
-            return containsStringArrayFields;
-        }
-    }
-    
-    return false;
-}

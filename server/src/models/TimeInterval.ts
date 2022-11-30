@@ -3,6 +3,6 @@ export interface TimeInterval {
     end: Date;
 }
 
-export function isTimeInterval(obj: Object) {
+export function isTimeInterval(obj: any): obj is TimeInterval {
     return 'start' in obj && 'end' in obj;
 }
