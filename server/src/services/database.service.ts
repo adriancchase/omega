@@ -39,7 +39,7 @@ export const userViewProjection = {
 } as const;
 
 export const postViewProjection = {
-    _id: 0,
+    _id: 1,
     author: 1,
     attendees: 1,
     location: 1,

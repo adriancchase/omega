@@ -25,3 +25,5 @@ export interface PostView {
 }
 
 export type PostDB = WithId<Post>;
+
+export type PostViewDB = WithId<PostView>;

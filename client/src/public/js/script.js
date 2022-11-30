@@ -1,4 +1,4 @@
-import {getLoggedInUserName} from './utils/dataUtils.js';
+import { getLoggedInUserName, jsonFetch } from './utils/dataUtils.js';
 
 
 window.onload = async () => {
@@ -38,7 +38,26 @@ function createPost(postView) {
     const postTimeIntervalField = newPost.querySelector('#postTimeInterval');
     postTimeIntervalField.innerText = `${formatTime(postView.timeInterval.start)} - ${formatTime(postView.timeInterval.end)}`;
 
+    // Attach handler for the post join button
+    const postJoinButton = newPost.querySelector('#postJoinButton');
+    postJoinButton.addEventListener('click', createPostJoinHandler(postView._id));
+
     document.getElementById('feed').appendChild(newPost);
+}
+
+
+function createPostJoinHandler(postId) {
+    return async () => {
+        const res = await jsonFetch(`post/${postId}/join`, 'PUT', {
+            userName: getLoggedInUserName()
+        });
+        if (res.status === 200) {
+            await displayPosts();
+            alert('Successfully joined!');
+        } else {
+            alert('Join failed!');
+        }
+    };
 }
 
 

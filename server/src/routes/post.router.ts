@@ -32,6 +32,7 @@ postRouter.post('/new', async (req, res) => {
     }
 });
 
+
 postRouter.get('/:id', async (req, res) => {
     const id = new ObjectId(req?.params?.id);
     try {
@@ -40,5 +41,37 @@ postRouter.get('/:id', async (req, res) => {
         res.status(200).send(post);
     } catch (err) {
         res.status(404).send(`Unable to find post '${id}'.`);
+    }
+});
+
+
+/**
+ * Adds the userName in the request body to the list of attendees for the postId given in the URL.
+ * 
+ * Request Body: {userName: string}
+ * Response Codes: 
+ *      200 -- Username succesfully added to post attendees list.
+ *      400 -- Request body contains no userName field.
+ *      500 -- Update operation failed.
+ * Response Body: {error: string} if response code is 400, else none.
+ */
+postRouter.put('/:id/join', async (req, res) => {
+    const postId = new ObjectId(req?.params?.id);
+    const userName = req?.body?.userName;
+
+    if (userName) {
+        try {
+            const dbResponse = await collections.post.updateOne(
+                { _id: postId }, 
+                { $addToSet: { attendees: userName } }
+            );
+            if (dbResponse) {
+                res.status(200).send();
+            }
+        } catch (err) {
+            res.status(500).send({error: `Unable to add user '${userName}' to post '${postId}'.`});
+        }
+    } else {
+        res.status(400).send({error: 'Request body contains no userName field.'});
     }
 });
