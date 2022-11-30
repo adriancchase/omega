@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "module": "es2022",
+        "moduleResolution": "node",
+        "target": "es2022",
+        "lib": [
+            "es2022"
+        ],
+        "allowSyntheticDefaultImports": true,
+        "noImplicitAny": false,
+        "strict": false,
+        "alwaysStrict": true,
+        "strictNullChecks": false,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "outDir": "dist",
+        "declaration": true,
+        "skipDefaultLibCheck": true
+    },
+    "include": ["src"]
+}
