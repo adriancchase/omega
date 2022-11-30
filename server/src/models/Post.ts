@@ -1,6 +1,6 @@
 import {WithId} from 'mongodb';
 import {UserView} from './User.js';
-import {TimeInterval} from './TimeInterval';
+import {TimeInterval} from './TimeInterval.js';
 
 export interface Post {
     /** Post creation timestamp. */
