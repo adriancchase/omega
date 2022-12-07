@@ -1,5 +1,6 @@
 import express from 'express';
 import { ObjectId } from 'mongodb';
+import { PostInvitation } from '../models/Post.js';
 import { getDatabaseCollections } from '../services/database.service.js';
 
 
@@ -22,9 +23,15 @@ postRouter.post('/new', async (req, res) => {
                 { userName: post.author },
                 { $push: { posts: postIdString, feed: postIdString, attending: postIdString } }
             );
-            authorUpdateResult
-                ? res.status(201).send(`Successfully created a new post with id '${postInsertResult.insertedId}'.`)
-                : res.status(500).send('Failed to create a new post.');
+
+            if (authorUpdateResult) {
+                res.status(201).send({
+                    message: `Successfully created a new post with id '${postInsertResult.insertedId}'.`,
+                    postId: postInsertResult.insertedId
+                });
+            } else {
+                res.status(500).send({ message: 'Failed to create a new post.' });
+            }
         }
     } catch (err) {
         console.error(err);
@@ -81,5 +88,32 @@ postRouter.put('/:id/join', async (req, res) => {
         }
     } else {
         res.status(400).send({error: 'Request body contains no userName field.'});
+    }
+});
+
+
+postRouter.put('/:id/invite', async (req, res) => {
+    const postId = new ObjectId(req.params.id);
+    try {
+        const invitation: PostInvitation = {
+            from: req.body.from,
+            location: req.body.location,
+            timeInterval: req.body.timeInterval,
+            postId
+        };
+    
+        const updateResponse = await collections.user.updateMany(
+            { userName: { $in: req.body.friendsToInvite } },
+            { $push: { invitations: invitation } }
+        );
+
+        if (updateResponse) {
+            res.status(200).send();
+        } else {
+            res.status(500).send();
+        }
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send();
     }
 });

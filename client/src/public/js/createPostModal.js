@@ -1,9 +1,14 @@
 import {importHtml} from './utils/htmlUtils.js';
-import {getLoggedInUserName} from './utils/dataUtils.js';
+import {getLoggedInUserName, jsonFetch} from './utils/dataUtils.js';
 import {displayPosts} from './script.js';
 
-importHtml('createPostModal.html', 'importCreatePostModal').then(() => {
-    document.getElementById('closeCreatePostModal').addEventListener('click', reset);
+
+// Event listener on friend invite/uninvite button will add/remove friend on this set,
+// which will be cleared on menu exit.
+let invitedFriends = new Set();
+
+await importHtml('createPostModal.html', 'importCreatePostModal').then(() => {
+    document.getElementById('feedPostButton').addEventListener('click', reset);
     document.getElementById('selectTimeButton').addEventListener('click', selectTime);
     document.getElementById('createPostButton').addEventListener('click', createPost);
 });
@@ -36,10 +41,12 @@ async function selectTime() {
 async function createPost() {
     const start = document.getElementById('startTimeInput').value;
     const end = document.getElementById('endTimeInput').value;
+    const timeInterval = { start, end };
     const location = document.getElementById('locationInput').value;
     const userName = getLoggedInUserName();
 
-    const res = await fetch('post/new', {
+    // Create new post.
+    const newPostResponse = await fetch('post/new', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -49,14 +56,24 @@ async function createPost() {
             author: userName,
             attendees: [userName],
             location,
-            timeInterval: {start, end},
+            timeInterval,
             chatId: '',
             visibleTo: [userName],
         })
     });
 
-    document.getElementById('createPostInfo').innerText = res.ok ? 'Post created successfully!' 
-                                                                 : 'Failed to create post.';
+    document.getElementById('createPostInfo').innerText = newPostResponse.ok ? 'Post created successfully!' 
+                                                                             : 'Failed to create post.';
+
+    // Invite friends.
+    const newPostId = await newPostResponse.json().then(obj => obj.postId);
+    const inviteResponse = await jsonFetch(`post/${newPostId}/invite`, 'PUT', {
+        friendsToInvite: Array.from(invitedFriends),
+        from: userName,
+        location,
+        timeInterval,
+        postId: newPostId
+    });
 
     await displayPosts();
 }
@@ -84,10 +101,15 @@ function showAvailableFriend(friend, availableFriendsList) {
     inviteButton.type = 'button';
     inviteButton.classList.add('btn', 'btn-primary', 'invite-friend-button');
     inviteButton.innerText = 'Invite';
+    inviteButton.addEventListener('click', createFriendInviteHandler(friend.userName));
 
     listItem.appendChild(friendName);
     listItem.appendChild(inviteButton);
     availableFriendsList.appendChild(listItem);
+}
+
+function createFriendInviteHandler(friendUserName) {
+    return () => invitedFriends.add(friendUserName);
 }
 
 function clearAvailableFriendsList() {
@@ -97,8 +119,13 @@ function clearAvailableFriendsList() {
     }
 }
 
+function clearInvitedFriends() {
+    invitedFriends = new Set();
+}
+
 function reset() {
     clearAvailableFriendsList();
+    clearInvitedFriends();
     document.getElementById('createPostInfo').innerText = '';
     document.getElementById('locationInput').value = '';
 }
