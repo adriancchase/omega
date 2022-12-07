@@ -53,8 +53,8 @@ function createPostJoinHandler(postId) {
             userName: getLoggedInUserName()
         });
         if (res.status === 200) {
-            await displayPosts();
-            alert('Successfully joined!');
+            await Promise.all([displayPosts, displayInvitations])
+                         .then(() => alert('Successfully joined!'));
         } else {
             alert('Join failed!');
         }
@@ -83,10 +83,6 @@ function createInvitation(postInvitation) {
     document.getElementById('invitationList').appendChild(newInvitation);
 }
 
-function createInvitationAcceptHandler(postId) {
-
-}
-
 
 function formatTime(date) {
     const d = new Date(date);
@@ -112,7 +108,7 @@ function formatDayMonth(date) {
 function formatInvitationDateText(postInvitation) {
     const startTime = postInvitation.timeInterval.start;
     const endTime = postInvitation.timeInterval.end;
-    
+
     return `${formatDayMonth(startTime)} ${formatTime(startTime)} - ${formatTime(endTime)}`;
 }
 
