@@ -49,7 +49,7 @@ export function createSampleUser(username: string = ''): User {
     pictureUrl: faker.image.avatar(),
     feed: [],
     attending: [],
-    invited: [],
+    invitations: [],
   };
 }
 

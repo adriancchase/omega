@@ -1,5 +1,6 @@
 import { WithId } from 'mongodb';
 import { TimeInterval } from './TimeInterval.js';
+import { PostInvitation } from './Post.js';
 
 
 export interface User {
@@ -22,7 +23,7 @@ export interface User {
     /** IDs of posts that the user is signed up to attend */
     attending: string[];
     /** IDs of posts that the user has been invited to, but the user has not accepted */
-    invited: string[];  
+    invitations: PostInvitation[];  
 }
 
 export type UserView = Pick<User, 

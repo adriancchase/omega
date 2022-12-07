@@ -1,4 +1,4 @@
-import {WithId} from 'mongodb';
+import {ObjectId, WithId} from 'mongodb';
 import {UserView} from './User.js';
 import {TimeInterval} from './TimeInterval.js';
 
@@ -27,3 +27,10 @@ export interface PostView {
 export type PostDB = WithId<Post>;
 
 export type PostViewDB = WithId<PostView>;
+
+export interface PostInvitation {
+    from: UserView;
+    location: string;
+    timeInterval: TimeInterval;
+    postId: ObjectId;
+}

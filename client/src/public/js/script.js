@@ -3,6 +3,7 @@ import { getLoggedInUserName, jsonFetch } from './utils/dataUtils.js';
 
 window.onload = async () => {
     await displayPosts();
+    await displayInvitations();
 };
 
 
@@ -61,6 +62,32 @@ function createPostJoinHandler(postId) {
 }
 
 
+async function displayInvitations() {
+    console.log('Loading invitations...');
+    const userName = getLoggedInUserName();
+    const user = await fetch(`user/${userName}`).then(res => res.json());
+    user.invitations.forEach(createInvitation);
+    console.log('Invitations loaded successfully.');
+}
+
+
+function createInvitation(postInvitation) {
+    console.log(JSON.stringify(postInvitation, null , 2));
+    const newInvitation = document.getElementById('invitation').content.cloneNode(true);
+    newInvitation.querySelector('#invitationLocationText').innerText = postInvitation.location;
+    newInvitation.querySelector('#invitationDateText').innerText = formatInvitationDateText(postInvitation);
+    newInvitation.querySelector('#invitationFromText').innerText = formatInvitationFromText(postInvitation);
+    newInvitation.querySelector('#invitationAcceptButton')
+                 .addEventListener('click', createPostJoinHandler(postInvitation.postId));
+
+    document.getElementById('invitationList').appendChild(newInvitation);
+}
+
+function createInvitationAcceptHandler(postId) {
+
+}
+
+
 function formatTime(date) {
     const d = new Date(date);
     let h = d.getHours();
@@ -79,4 +106,19 @@ function formatTime(date) {
 function formatDayMonth(date) {
     const d = new Date(date);
     return `${d.toLocaleString('default', { month: 'long' })} ${d.getDate()}`;
+}
+
+
+function formatInvitationDateText(postInvitation) {
+    const startTime = postInvitation.timeInterval.start;
+    const endTime = postInvitation.timeInterval.end;
+    
+    return `${formatDayMonth(startTime)} ${formatTime(startTime)} - ${formatTime(endTime)}`;
+}
+
+
+function formatInvitationFromText(postInvitation) {
+    console.log(JSON.stringify(postInvitation));
+    console.log(typeof postInvitation)
+    return `From: ${postInvitation.from.firstName} ${postInvitation.from.lastName}`;
 }

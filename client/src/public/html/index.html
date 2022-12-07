@@ -28,10 +28,40 @@
                 <div id="feed" class="container feed text-center"></div>
             </div>
             <div class="col-4">
-                
+                <div class="row" style="padding-top: 1rem; padding-bottom: 0.5rem;">
+                    <div class="col">
+                        <h3>Invitations</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div id="invitationList" class="container feed" style="text-align: left;"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+    <template id="invitation">
+        <div class="row">
+            <div class="col">
+                <div class="card shadow">
+                    <div class="card-body invitation-body">
+                        <div class="row">
+                            <div class="col-8">
+                                <div id="invitationLocationText"></div>
+                                <div id="invitationDateText"></div>
+                                <div id="invitationFromText"></div>
+                            </div>
+                            <div class="col my-auto text-center">
+                                <button id="invitationAcceptButton" class="btn btn-primary align-middle" type="button">Accept</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
     
     <template id="post">
         <div class="row">
