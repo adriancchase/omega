@@ -64,7 +64,15 @@ async function displayInvitations() {
     document.getElementById('invitationList').innerHTML = '';
     const userName = getLoggedInUserName();
     const user = await fetch(`user/${userName}`).then(res => res.json());
-    user.invitations.forEach(createInvitation);
+    if (user.invitations.length) {
+        user.invitations.forEach(createInvitation);
+    } else {
+        // Display a message if user has received no invitations.
+        const messageDiv = document.createElement('div');
+        messageDiv.style.textAlign = 'center';
+        messageDiv.innerText = 'You don\'t have any invitations right now!';
+        document.getElementById('invitationList').appendChild(messageDiv);
+    }
 }
 
 
