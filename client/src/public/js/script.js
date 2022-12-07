@@ -90,6 +90,7 @@ function createInvitation(postInvitation) {
 
 function formatTime(date) {
     const d = new Date(date);
+    const m = d.getMinutes() >= 10 ? d.getMinutes() : `0${d.getMinutes()}`;
     let h = d.getHours();
     let p = 'AM';
     if (h > 12) {
@@ -99,7 +100,7 @@ function formatTime(date) {
         h = 12;  
     } 
 
-    return `${h}:${d.getMinutes()} ${p}`;
+    return `${h}:${m} ${p}`;
 }
 
 
