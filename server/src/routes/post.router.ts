@@ -61,12 +61,20 @@ postRouter.put('/:id/join', async (req, res) => {
 
     if (userName) {
         try {
-            const dbResponse = await collections.post.updateOne(
+            // Update attendees list on the given post.
+            const attendeesResponse = await collections.post.updateOne(
                 { _id: postId }, 
                 { $addToSet: { attendees: userName } }
             );
-            if (dbResponse) {
-                res.status(200).send();
+            if (attendeesResponse) {
+                // Remove invitation from the joining user's invitation list if it exists
+                const invitationsResponse = await collections.user.updateOne(
+                    { userName },
+                    { $pull: { invitations: { postId: { $eq: postId } } } }
+                );
+                if (invitationsResponse) {
+                    res.status(200).send();
+                }
             }
         } catch (err) {
             res.status(500).send({error: `Unable to add user '${userName}' to post '${postId}'.`});
