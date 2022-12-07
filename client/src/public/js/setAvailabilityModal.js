@@ -1,4 +1,4 @@
-import {importHtml} from '../utils/htmlUtils.js';
+import {importHtml} from './utils/htmlUtils.js';
 
 
 importHtml('setAvailabilityModal.html', 'importAvailabilityModal').then(()=> {
