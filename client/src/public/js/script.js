@@ -51,8 +51,8 @@ function createPostJoinHandler(postId) {
             userName: getLoggedInUserName()
         });
         if (res.status === 200) {
-            await Promise.all([displayPosts, displayInvitations])
-                         .then(() => alert('Successfully joined!'));
+            await Promise.all([displayPosts(), displayInvitations()])
+                         .then(() => setTimeout(() => alert('Successfully joined!'), 0));
         } else {
             alert('Join failed!');
         }
