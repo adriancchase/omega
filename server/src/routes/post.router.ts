@@ -1,7 +1,7 @@
 import express from 'express';
 import { ObjectId } from 'mongodb';
 import { PostInvitation } from '../models/Post.js';
-import { getDatabaseCollections } from '../services/database.service.js';
+import { getDatabaseCollections, userViewProjection } from '../services/database.service.js';
 
 
 export const postRouter = express.Router();
@@ -95,8 +95,13 @@ postRouter.put('/:id/join', async (req, res) => {
 postRouter.put('/:id/invite', async (req, res) => {
     const postId = new ObjectId(req.params.id);
     try {
+        const from = await collections.user.findOne(
+            { userName: req.body.from}, 
+            { projection: userViewProjection }
+        );
+
         const invitation: PostInvitation = {
-            from: req.body.from,
+            from,
             location: req.body.location,
             timeInterval: req.body.timeInterval,
             postId
