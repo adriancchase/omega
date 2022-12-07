@@ -9,11 +9,9 @@ window.onload = async () => {
 
 export async function displayPosts() {
     document.getElementById('feed').innerHTML = '';
-    console.log('Loading posts...');
     const userName = getLoggedInUserName();
     const feedPosts = await fetch(`user/${userName}/feed`).then(res => res.json());
     feedPosts.forEach(createPost);
-    console.log('Posts loaded successfully.');
 }
 
 
@@ -63,16 +61,14 @@ function createPostJoinHandler(postId) {
 
 
 async function displayInvitations() {
-    console.log('Loading invitations...');
+    document.getElementById('invitationList').innerHTML = '';
     const userName = getLoggedInUserName();
     const user = await fetch(`user/${userName}`).then(res => res.json());
     user.invitations.forEach(createInvitation);
-    console.log('Invitations loaded successfully.');
 }
 
 
 function createInvitation(postInvitation) {
-    console.log(JSON.stringify(postInvitation, null , 2));
     const newInvitation = document.getElementById('invitation').content.cloneNode(true);
     newInvitation.querySelector('#invitationLocationText').innerText = postInvitation.location;
     newInvitation.querySelector('#invitationDateText').innerText = formatInvitationDateText(postInvitation);
@@ -114,7 +110,5 @@ function formatInvitationDateText(postInvitation) {
 
 
 function formatInvitationFromText(postInvitation) {
-    console.log(JSON.stringify(postInvitation));
-    console.log(typeof postInvitation)
     return `From: ${postInvitation.from.firstName} ${postInvitation.from.lastName}`;
 }
