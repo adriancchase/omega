@@ -98,6 +98,7 @@ function showAvailableFriend(friend, availableFriendsList) {
     friendName.innerText = `${friend.firstName} ${friend.lastName}`;
 
     const inviteButton = document.createElement('button');
+    inviteButton.id = getFriendInviteButtonId(friend.userName);
     inviteButton.type = 'button';
     inviteButton.classList.add('btn', 'btn-primary', 'invite-friend-button');
     inviteButton.innerText = 'Invite';
@@ -108,9 +109,32 @@ function showAvailableFriend(friend, availableFriendsList) {
     availableFriendsList.appendChild(listItem);
 }
 
-function createFriendInviteHandler(friendUserName) {
-    return () => invitedFriends.add(friendUserName);
+function getFriendInviteButtonId(friendUserName) {
+    return `invite${friendUserName}Button`;
 }
+
+function createFriendInviteHandler(friendUserName) {
+    return () => { 
+        invitedFriends.add(friendUserName); 
+        const inviteButton = document.getElementById(getFriendInviteButtonId(friendUserName));
+        inviteButton.classList.replace('btn-primary', 'btn-danger');
+        inviteButton.innerText = 'Uninvite';
+        inviteButton.removeEventListener('click', createFriendInviteHandler(friendUserName));
+        inviteButton.addEventListener('click', createFriendUninviteHandler(friendUserName));
+    };
+}
+
+function createFriendUninviteHandler(friendUserName) {
+    return () => {
+        invitedFriends.delete(friendUserName);
+        const inviteButton = document.getElementById(getFriendInviteButtonId(friendUserName));
+        inviteButton.classList.replace('btn-danger', 'btn-primary');
+        inviteButton.innerText = 'Invite';
+        inviteButton.removeEventListener('click', createFriendUninviteHandler(friendUserName));
+        inviteButton.addEventListener('click', createFriendInviteHandler(friendUserName));
+    };
+}
+
 
 function clearAvailableFriendsList() {
     const availableFriendsList = document.getElementById('availableFriendsList');
