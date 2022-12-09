@@ -1,11 +1,16 @@
 import { WithId } from 'mongodb';
 import { TimeInterval } from './TimeInterval.js';
 import { PostInvitation } from './Post.js';
+import { MiniCrypt } from '../utils/miniCrypt.js';
 
 
 export interface User {
     /** Unique username */
     userName: string;  
+    /** Password encrypted using hash function with salt. */
+    passwordHash: string;
+    /** Salt used for computing encrypted password. */
+    passwordSalt: string;
     /** Real first name */
     firstName: string;
     /** Real last name */
@@ -35,3 +40,33 @@ export type UserView = Pick<User,
 >;
 
 export type UserDB = WithId<User>;
+
+
+export interface NewUserParams {
+    userName: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+}
+
+
+export function createNewUser(newUserParams: NewUserParams): User {
+    const { userName, password, firstName, lastName } = newUserParams;
+    const mc = new MiniCrypt();
+    const [salt, hash] = mc.hash(password);
+
+    return {
+        userName,
+        passwordHash: hash,
+        passwordSalt: salt,
+        firstName,
+        lastName,
+        pictureUrl: '', 
+        availability: [], 
+        posts: [],   
+        friends: [],
+        feed: [],
+        attending: [],
+        invitations: []
+    };
+}

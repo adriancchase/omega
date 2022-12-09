@@ -1,61 +1,38 @@
-"use strict";
-import { getLoggedInUserName } from "../utils/dataUtils.js";
+import { jsonFetch } from './utils/dataUtils.js';
 
-function Signup() {
-  const a = new Array();
-  const up1 = new Object();
-  const up2 = new Object();
+window.onload = () => {
+  document.getElementById('signupSubmitButton').addEventListener('click', signup);
+};
 
-  up1 = {
-    name: "[abcd@gmail.com](mailto:abcd@gmail.com)",
-    password: btoa("abc@12"),
-  };
 
-  up2 = {
-    name: "[bcd@gmail.com](mailto:bcd@gmail.com)",
-    password: btoa("bcd@12"),
-  };
+async function signup() {
+  const userName = document.getElementById('userNameInput').value;
+  const password = document.getElementById('passwordInput').value;
+  const firstName = document.getElementById('firstNameInput').value;
+  const lastName = document.getElementById('lastNameInput').value;
 
-  a.push(up1);
-  a.push(up2);
-
-  const username = document.getElementById("uname").value;
-  const password = document.getElementById("psw").value;
-
-  sessionStorage.setItem("currentloggedin", username);
-
-  localStorage.setItem("all_users", JSON.stringify(a));
-
-  a = JSON.parse(localStorage.getItem("all_users"));
-
-  a.push({ name: username, password: password });
-}
-
-async function createUser() {
-  const start = document.getElementById("startTimeInput").value;
-  const end = document.getElementById("endTimeInput").value;
-  const location = document.getElementById("locationInput").value;
-  const userName = getLoggedInUserName();
-
-  const res = await fetch("user/new", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      author: userName,
-      attendees: [userName],
-      location,
-      timeInterval: { start, end },
-      chatId: "",
-      visibleTo: [userName],
-    }),
-  });
-
-  document.getElementById("createPostInfo").innerText = res.ok
-    ? "Post created successfully!"
-    : "Failed to create post.";
-
-  await displayPosts();
+  if (userName.length > 12 || userName.length < 6) {
+    alert('Username must be between 6 and 12 characters.');
+  } else if (password.length > 12 || password.length < 6) {
+    alert('Password must be between 6 and 12 characters.');
+  } else if (firstName.length > 20 || firstName.length === 0) {
+    alert('First name must be between 1 and 20 characters.');
+  } else if (lastName.length > 20 || lastName.length === 0) {
+    alert('Last name must be between 1 and 20 characters.');
+  } else {
+    const res = await jsonFetch('/user/new', 'POST', {
+      userName,
+      password,
+      firstName,
+      lastName
+    });
+  
+    if (res.status === 201) {
+      alert('Sign up successful!');
+    } else if (res.status === 409) {
+      alert(`Username '${userName}' already in use.`);
+    } else {
+      alert('Sign up failed.');
+    }
+  }
 }

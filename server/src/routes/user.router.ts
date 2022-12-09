@@ -1,6 +1,7 @@
 import express from 'express';
 import {ObjectId} from 'mongodb';
-import {getDatabaseCollections, userViewProjection, postViewProjection} from '../services/database.service.js';
+import { createNewUser, NewUserParams } from '../models/User.js';
+import { getDatabaseCollections, userViewProjection, postViewProjection } from '../services/database.service.js';
 import { getUserView } from '../typeUtils.js';
 
 
@@ -11,18 +12,25 @@ const collections = await getDatabaseCollections();
 
 /**
  * POST endpoint for creating a new user.
- * Request: User object
+ * Request: NewUserParams object
  */
 userRouter.post('/new', async (req, res) => {
-    const user = req.body;
+    const newUserParams: NewUserParams = req.body;
+    const user = createNewUser(newUserParams);
+
     try {
-        const result = await collections.user.insertOne(user);
-        result
-            ? res.status(201).send(`Successfully created a new user '${user.userName}' with id '${result.insertedId}'.`)
-            : res.status(500).send('Failed to create a new user.');
+        const userQuery = await collections.user.findOne({userName: user.userName});
+        if (userQuery) {
+            res.status(409).send({message: `User '${user.userName}' already exists.`});
+        } else {
+            const result = await collections.user.insertOne(user);
+            result
+                ? res.status(201).send({message: `Successfully created a new user '${user.userName}' with id '${result.insertedId}'.` })
+                : res.status(500).send({message: 'Failed to create a new user.' });
+        }
     } catch (err) {
         console.error(err);
-        res.status(400).send(err.message);
+        res.status(400).send(err);
     }
 });    
 

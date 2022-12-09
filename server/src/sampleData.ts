@@ -13,7 +13,7 @@ export const POSTS: Record<string, Post> = {};
 /** All users will be set to have the same availability. */
 const availability = [createSampleTimeInterval()];
 
-
+/** 
 export function createSampleData() {
   for (let i = 0; i < 10; i++) {
     const user = createSampleUser();
@@ -30,6 +30,7 @@ export function createSampleData() {
   collections.user.insertMany(Object.values(USERS));
   collections.post.insertMany(Object.values(POSTS));
 }
+*/
 
 
 //Returns all the posts done by a given user
@@ -37,7 +38,7 @@ export function getPostsByUser(username) {
   return USERS[username].posts;
 }
 
-
+/** 
 export function createSampleUser(username: string = ''): User {
   return {
     userName: username.length > 0 ? username : faker.internet.userName(),
@@ -52,6 +53,7 @@ export function createSampleUser(username: string = ''): User {
     invitations: [],
   };
 }
+*/
 
 
 export function createSamplePost(author: string): WithId<Post> {
