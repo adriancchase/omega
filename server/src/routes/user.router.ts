@@ -94,12 +94,14 @@ userRouter.put('/:userName/friends', async (req, res) => {
     const { userName } = req.params;
     const { friendUserName } = req.body;
     try {
-        const result = await collections.user.updateOne(
-            { userName }, 
-            { $push: { friends: friendUserName } }
-        );
-        if (result) {
-            res.status(200).send();
+        // Check if new friend to be added exists.
+        const newFriend = await collections.user.findOne({ userName: friendUserName });
+        if (newFriend) {
+            // Add new friend to friends list.
+            await collections.user.updateOne(
+                { userName }, 
+                { $push: { friends: friendUserName } }
+            );
         } else {
             res.status(404).send();
         }
