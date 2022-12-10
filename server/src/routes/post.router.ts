@@ -19,12 +19,20 @@ postRouter.post('/new', async (req, res) => {
         const postInsertResult = await collections.post.insertOne(post);
         if (postInsertResult) {
             const postIdString = postInsertResult.insertedId.toString();
+
+            // Add post to author's list of posts, feed, and attending.
             const authorUpdateResult = await collections.user.updateOne(
                 { userName: post.author },
                 { $push: { posts: postIdString, feed: postIdString, attending: postIdString } }
             );
 
             if (authorUpdateResult) {
+                // Add post to feed of author's friends.
+                const author = await collections.user.findOne({ userName: post.author });
+                await collections.user.updateMany(
+                    { userName: { $in: author.friends }},
+                    { $push: { feed: postIdString }}
+                );
                 res.status(201).send({
                     message: `Successfully created a new post with id '${postInsertResult.insertedId}'.`,
                     postId: postInsertResult.insertedId

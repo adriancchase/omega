@@ -1,6 +1,5 @@
 import express from 'express';
 import {ObjectId} from 'mongodb';
-import { resolveTripleslashReference } from 'typescript';
 import { createNewUser, NewUserParams } from '../models/User.js';
 import { getDatabaseCollections, userViewProjection, postViewProjection } from '../services/database.service.js';
 import { getUserView } from '../typeUtils.js';
