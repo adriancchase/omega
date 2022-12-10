@@ -102,6 +102,7 @@ userRouter.put('/:userName/friends', async (req, res) => {
                 { userName }, 
                 { $push: { friends: friendUserName } }
             );
+            res.status(200).send();
         } else {
             res.status(404).send();
         }
