@@ -1,7 +1,8 @@
-import { getLoggedInUserName } from './utils/dataUtils.js';
+import { getLoggedInUserName, jsonFetch } from './utils/dataUtils.js';
 
 
 window.onload = async () => {
+  document.getElementById('addFriendButton').addEventListener('click', addFriendFromSearch)
   await displayFriends();
 };
 
@@ -35,4 +36,16 @@ function createFriendItem(friendUserView) {
   friendName.innerText = `${friendUserView.firstName} ${friendUserView.lastName}`;
 
   document.getElementById('friends-list').appendChild(newFriend);
+}
+
+
+async function addFriendFromSearch() {
+  const friendUserName = document.getElementById('friendSearch').value;
+  const userName = getLoggedInUserName();
+  const res = await jsonFetch(`/user/${userName}/friends`, 'PUT', { friendUserName });
+  if (res.status === 200) {
+    await displayFriends().then(() => alert(`Added '${friendUserName}' to your friends list!`));
+  } else {
+    alert(`The user '${friendUserName}' does not exist`);
+  }
 }

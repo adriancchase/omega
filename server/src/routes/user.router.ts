@@ -90,6 +90,25 @@ userRouter.get('/:userName', async (req, res) => {
     }
 });
 
+userRouter.put('/:userName/friends', async (req, res) => {
+    const { userName } = req.params;
+    const { friendUserName } = req.body;
+    try {
+        const result = await collections.user.updateOne(
+            { userName }, 
+            { $push: { friends: friendUserName } }
+        );
+        if (result) {
+            res.status(200).send();
+        } else {
+            res.status(404).send();
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send();
+    }
+});
+
 
 userRouter.get('/:userName/feed', async (req, res) => {
     const userName = req?.params?.userName;
