@@ -12,10 +12,9 @@ async function login() {
   const res = await jsonFetch(`/user/${userName}/session`, 'POST', { password });
   if (res.status === 200) {
     window.localStorage.setItem('session', await res.json().then(x => JSON.stringify(x.session)));
+    // Redirect user to feed.
+    window.location.replace(`/html/index.html`);
   } else {
     alert('Invalid username or password.');
   }
-  
-  // Redirect user to feed.
-  window.location.replace(`/html/index.html`);
 }
