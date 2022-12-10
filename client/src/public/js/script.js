@@ -11,7 +11,15 @@ export async function displayPosts() {
     document.getElementById('feed').innerHTML = '';
     const userName = getLoggedInUserName();
     const feedPosts = await fetch(`/user/${userName}/feed`).then(res => res.json());
-    feedPosts.forEach(createPost);
+    if (feedPosts.length) {
+        feedPosts.forEach(createPost);
+    } else {
+        // Display a message if user has received no invitations.
+        const messageDiv = document.createElement('div');
+        messageDiv.style.textAlign = 'center';
+        messageDiv.innerText = 'You don\'t have any posts in your feed right now!';
+        document.getElementById('feed').appendChild(messageDiv);
+    }
 }
 
 
