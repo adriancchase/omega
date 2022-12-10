@@ -1,8 +1,10 @@
 import express from 'express';
 import {ObjectId} from 'mongodb';
+import { resolveTripleslashReference } from 'typescript';
 import { createNewUser, NewUserParams } from '../models/User.js';
 import { getDatabaseCollections, userViewProjection, postViewProjection } from '../services/database.service.js';
 import { getUserView } from '../typeUtils.js';
+import { MiniCrypt } from '../utils/miniCrypt.js';
 
 
 export const userRouter = express.Router();
@@ -60,7 +62,7 @@ userRouter.get('/:userName', async (req, res) => {
         const user = await collections.user.findOne(query);
         res.status(200).send(user);
     } catch (err) {
-        res.status(404).send(`Unable to find user '${userName}'.`);
+        res.status(404).send({ message: `Unable to find user '${userName}'.` });
     }
 });
 
@@ -174,3 +176,22 @@ userRouter.delete('/:userName', async (req, res) => {
         res.status(400).send(err.message);
     }
 });
+
+
+userRouter.post('/:userName/session', async (req, res) => {
+    const userName = req.params.userName;
+    const { password } = req.body;
+
+    try {
+        const user = await collections.user.findOne({ userName });
+        const mc = new MiniCrypt();
+        if (user && mc.check(password, user.passwordSalt, user.passwordHash)) {
+            res.status(200).send( {session: { userName } });
+        } else {
+            res.status(404).send();
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send();
+    }
+}); 

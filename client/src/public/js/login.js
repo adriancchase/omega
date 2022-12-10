@@ -1,17 +1,21 @@
-"use strict";
+import { jsonFetch } from './utils/dataUtils.js';
+
+window.onload = () => {
+  document.getElementById('loginButton').addEventListener('click', login);
+};
 
 
-function Login() {
-  const hash = Object.fromEntries(a.map((e) => [e.name, e.password]));
+async function login() {
+  const userName = document.getElementById('userNameInput').value;
+  const password = document.getElementById('passwordInput').value;
 
-  var username = document.getElementById("uname").value;
-  var password = document.getElementById("psw").value;
-
-  for (let key of hash) {
-    if (key[0] === username && key[1] === atob(password)) {
-      alert("Login successful");
-    } else {
-      alert("Login fail");
-    }
+  const res = await jsonFetch(`/user/${userName}/session`, 'POST', { password });
+  if (res.status === 200) {
+    window.localStorage.setItem('session', await res.json().then(x => JSON.stringify(x.session)));
+  } else {
+    alert('Invalid username or password.');
   }
+  
+  // Redirect user to feed.
+  window.location.replace(`/html/index.html`);
 }

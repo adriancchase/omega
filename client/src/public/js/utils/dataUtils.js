@@ -1,5 +1,5 @@
 export function getLoggedInUserName() {
-    return 'nhansche';
+    return JSON.parse(window.localStorage.getItem('session')).userName;
 }
 
 export async function jsonFetch(url, method, body) {
