@@ -1,0 +1,11 @@
+.sidebar {
+    position: sticky;
+    top: 1rem;
+    padding-top: 1rem;
+    min-height: 100vh;
+}
+
+.sidebar > * a {
+    color: blue;
+    text-decoration: none; /* no underline */
+}
