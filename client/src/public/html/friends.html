@@ -16,7 +16,7 @@
     />
     <link rel="stylesheet" href="../css/friends.css" />
     <link rel="import" href="post.html" />
-    <script src="../js/friends.js"></script>
+    <script type="module" src="../js/friends.js"></script>
   </head>
   <body>
     <script
@@ -29,43 +29,33 @@
         <script type="module" id="createSidebar" src="../js/sidebar.js"></script>
         <div class="col-2"></div>
         <div class="col-4">
-            <div class="card post shadow mb-3">
-                <div class="card-body">
-                    <div id ="friends-list" class="container-fluid feed text-center" style = "text-align: left;">
-                </div>
-              </div>
+            <div id="friends-list" class="container"></div>
         </div>
         <div class="col-4"></div>
       </div>
     </div>
 
     <template id="friend-item">
-      <div class="row" style ="padding-top: 1rem" style = "text-align: left;">
+      <div class="row" style ="padding-top: 1rem" style="text-align: left;">
         <div class="col">
-            <div class="dropdown">
-                <a
-                  href="#"
-                  class="container align-items-center link-dark text-decoration-none dropdown-toggle"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <img class = "img-pfp"
+          <div class="card shadow">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-3">
+                  <img id="friendPic" 
+                    class="img-pfp"
                     src="https://github.com/mdo.png"
                     alt=""
                     class="rounded-circle me-2"
+                    style="width: 64px; height: 64px;"
                   />
-                  <div class="status-circle">
-                  </div>
-                  <strong>John Smith</strong>
-                </a>
-                <ul class="dropdown-menu text-small shadow">
-                  <li><a class="dropdown-item" href="#">Remove friend</a></li>
-            
-                  <li><hr class="dropdown-divider" /></li>
-                </ul>
+                </div>
+                <div class="col-9" style="text-align: left">
+                  <strong id="friendName"></strong>   
+                </div>
               </div>
-              
-          
+            </div>
+          </div>
         </div>
       </div>
     </template>
