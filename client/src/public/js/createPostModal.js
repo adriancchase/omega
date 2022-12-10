@@ -21,7 +21,7 @@ async function selectTime() {
     
     if (startTimeInput.length !== 0 && endTimeInput.length !== 0) {
         // Note: response.json() parses Date objects into strings rather than Date objects, so this is not actually of type User
-        const friends = await fetch(`user/${userName}/friends`).then(response => response.json());
+        const friends = await fetch(`/user/${userName}/friends`).then(response => response.json());
         console.log(`Friends: ${JSON.stringify(friends)}`);
         const timeInterval = {
             start: new Date(startTimeInput),
@@ -46,7 +46,7 @@ async function createPost() {
     const userName = getLoggedInUserName();
 
     // Create new post.
-    const newPostResponse = await fetch('post/new', {
+    const newPostResponse = await fetch('/post/new', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -67,7 +67,7 @@ async function createPost() {
 
     // Invite friends.
     const newPostId = await newPostResponse.json().then(obj => obj.postId);
-    const inviteResponse = await jsonFetch(`post/${newPostId}/invite`, 'PUT', {
+    const inviteResponse = await jsonFetch(`/post/${newPostId}/invite`, 'PUT', {
         friendsToInvite: Array.from(invitedFriends),
         from: userName,
         location,

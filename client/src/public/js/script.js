@@ -10,7 +10,7 @@ window.onload = async () => {
 export async function displayPosts() {
     document.getElementById('feed').innerHTML = '';
     const userName = getLoggedInUserName();
-    const feedPosts = await fetch(`user/${userName}/feed`).then(res => res.json());
+    const feedPosts = await fetch(`/user/${userName}/feed`).then(res => res.json());
     feedPosts.forEach(createPost);
 }
 
@@ -47,7 +47,7 @@ function createPost(postView) {
 
 function createPostJoinHandler(postId) {
     return async () => {
-        const res = await jsonFetch(`post/${postId}/join`, 'PUT', {
+        const res = await jsonFetch(`/post/${postId}/join`, 'PUT', {
             userName: getLoggedInUserName()
         });
         if (res.status === 200) {
@@ -63,7 +63,7 @@ function createPostJoinHandler(postId) {
 async function displayInvitations() {
     document.getElementById('invitationList').innerHTML = '';
     const userName = getLoggedInUserName();
-    const user = await fetch(`user/${userName}`).then(res => res.json());
+    const user = await fetch(`/user/${userName}`).then(res => res.json());
     if (user.invitations.length) {
         user.invitations.forEach(createInvitation);
     } else {
