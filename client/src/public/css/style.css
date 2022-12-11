@@ -60,4 +60,25 @@
 }
 
 
+.availabilityTable > * .availabilityDateCol {
+    padding-left: 0rem;
+    padding-right: 0rem;
+}
+
+.availabilityTable > * .availabilityTimeCol {
+    padding-left: 0rem;
+    padding-right: 3rem;
+}
+
+.availabilityTable > * .availabilityRemoveButtonCol {
+    padding-left: 0rem;
+}
+
+.availabilityTable {
+    border: none;
+    border-collapse: separate;
+    border-spacing: 1rem;
+}
+
+
 

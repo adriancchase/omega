@@ -1,34 +1,52 @@
-<div class="modal fade" id="availabilityModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="availabilityModalLabel">Set Availability</h4>
-          <button id="closeAvailabilityModal" type="button" class="close" data-dismiss="modal">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="container-fluid">
-            <div class="row">
-                <div class="col">
-                     <ul class="list-group" id="availability-group-container">
-                      <template id="availability-item-template">
-                        <li class="list-group-item" id="li1">Item 1<button type="button" class="btn btn-primary" style="float: right;">Remove</button></li>
-                      </template>
-                      
-                     </ul>            
-                </div>
-            </div>
+
+
+<div class="modal fade" id="setAvailabilityModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="availabilityModalLabel">Set Availability</h4>
+        <button id="closeAvailabilityModal" type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+              <div class="col">
+                <table id="availabilityTable" class="availabilityTable">
+                  <thead>
+                    <th scope="col" class="availabilityDateCol">Start</th>
+                    <th scope="col" class="availabilityTimeCol"></th>
+                    <th scope="col" class="availabilityDateCol">End</th>
+                    <th scope="col" class="availabilityTimeCol"></th>
+                    <th scope="col" class="availabilityRemoveButtonCol"></th>
+                  </thead>
+                  <tbody id="availabilityTableBody">
+
+                  </tbody>
+                </table>            
+              </div>
           </div>
         </div>
-        <div class="modal-footer">
-          <span id="setAvailabilityInfo" style="text-align: left;"></span>
-          <label for="startTimeInput">Start:</label>
-            <input type="datetime-local" id="start-time-availability" name="startTimeInput">
-            <label for="endTimeInput">End:</label>
-            <input type="datetime-local" id="end-time-availability" name="endTimeInput">
-          <button id="setAvailabilityBtn" type="button" class="btn btn-primary">Add</button>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <span id="setAvailabilityInfo" style="text-align: left;"></span>
+        <label for="startTimeInput">Start:</label>
+          <input type="datetime-local" id="start-time-availability" name="startTimeInput">
+          <label for="endTimeInput">End:</label>
+          <input type="datetime-local" id="end-time-availability" name="endTimeInput">
+        <button id="addAvailabilityButton" type="button" class="btn btn-primary">Add</button>
       </div>
     </div>
   </div>
+</div>
+
+<template id="availabilityItemTemplate">
+  <tr id="availabilityItem">
+    <td id="availabilityItemStartDate" class="availabilityDateCol"></td>
+    <td id="availabilityItemStartTime" class="availabilityTimeCol"></td>
+    <td id="availabilityItemEndDate" class="availabilityDateCol"></td>
+    <td id="availabilityItemEndTime" class="availabilityTimeCol"></td>
+    <td class="availabilityRemoveButtonCol"><button id="availabilityItemRemoveButton" type="button" class="btn btn-danger">Remove</button></td>
+  </tr>
+</template>

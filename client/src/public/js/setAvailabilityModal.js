@@ -1,33 +1,56 @@
-import {importHtml} from './utils/htmlUtils.js';
+import { importHtml } from './utils/htmlUtils.js';
+import { getLoggedInUserName, jsonFetch, formatTime, formatDayMonth } from './utils/dataUtils.js';
 
 
-importHtml('setAvailabilityModal.html', 'importAvailabilityModal').then(()=> {
+await importHtml('setAvailabilityModal.html', 'importAvailabilityModal').then(async () => {
     document.getElementById('closeAvailabilityModal').addEventListener('click', reset);
-    document.getElementById('setAvailabilityBtn').addEventListener('click', addElementToList);
+    document.getElementById('addAvailabilityButton').addEventListener('click', updateAvailability);
+    await displayAvailability();
 });
 
-let listCount = 0;
 
-function reset() {
+async function updateAvailability() {
+    const userName = getLoggedInUserName();
+    const start = document.getElementById('start-time-availability').value;
+    const end = document.getElementById('end-time-availability').value;
+    const timeInterval = { start, end };
 
+    const res = await jsonFetch(`/user/${userName}/availability`, 'PUT', timeInterval);
+    if (res.status === 200) {
+        await displayAvailability();
+    } else {
+        alert('Failed to update availability.');
+    }
 }
 
-function addAvailabilityItem() {
-    const startDate = document.getElementById('start-time-availability').value;
-    const endDate = document.getElementById('end-time-availability').value;
-
-
+async function displayAvailability() {
+    const availabilityTable = document.getElementById('availabilityTableBody');
+    availabilityTable.innerHTML = '';
+    const userName = getLoggedInUserName();
+    const availability = await jsonFetch(`/user/${userName}/availability`, 'GET').then(res => res.json());
+    if (availability.length) {
+        availability.forEach(displayAvailabilityItem);
+    }
 }
 
-function addElementToList() {
-    const template = document.getElementById('availability-item-template');
-    const list = document.getElementById('availability-group-container');
+function displayAvailabilityItem(timeInterval) {
+    const newAvailabilityItem = document.getElementById('availabilityItemTemplate').content.cloneNode(true);
+    const availabilityItemStartDate = newAvailabilityItem.querySelector('#availabilityItemStartDate');
+    const availabilityItemStartTime = newAvailabilityItem.querySelector('#availabilityItemStartTime');
+    const availabilityItemEndDate = newAvailabilityItem.querySelector('#availabilityItemEndDate');
+    const availabilityItemEndTime = newAvailabilityItem.querySelector('#availabilityItemEndTime');
+    availabilityItemStartDate.innerText = formatDayMonth(timeInterval.start);
+    availabilityItemStartTime.innerText = formatTime(timeInterval.start);
+    availabilityItemEndDate.innerText = formatDayMonth(timeInterval.end);
+    availabilityItemEndTime.innerText = formatTime(timeInterval.end);
+  
+    const availabilityItemRemoveButton = newAvailabilityItem.querySelector('#availabilityItemRemoveButton');
+    availabilityItemRemoveButton.addEventListener('click', removeAvailabilityItem(timeInterval));
     
-    const listItem = template.content.cloneNode(true);
-    const div = listItem.querySelector('#li1');
-    div.id = `li${listCount}`;
-    console.log("Keys in method: " + Object.keys(listItem));
-    listItem.querySelector('.btn-primary').addEventListener('click', () => {document.getElementById("li"+listCount).remove();});
-    list.append(listItem);
-    listCount++;
+    document.getElementById('availabilityTableBody').appendChild(newAvailabilityItem);
+}
+
+
+function removeAvailabilityItem(timeInterval) {
+    //listItem.querySelector('.btn-primary').addEventListener('click', () => {document.getElementById("li"+listCount).remove();});
 }

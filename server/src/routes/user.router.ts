@@ -1,5 +1,6 @@
 import express from 'express';
 import {ObjectId} from 'mongodb';
+import { TimeInterval } from '../models/TimeInterval.js';
 import { createNewUser, NewUserParams } from '../models/User.js';
 import { getDatabaseCollections, userViewProjection, postViewProjection } from '../services/database.service.js';
 import { getUserView } from '../typeUtils.js';
@@ -65,6 +66,42 @@ userRouter.get('/:userName', async (req, res) => {
     }
 });
 
+userRouter.get('/:userName/availability', async (req, res) => {
+    const { userName } = req.params;
+    try {
+        const availability = await collections.user.findOne(
+            { userName },
+            { projection: { _id: 0, availability: 1 } }
+        ).then(result => result.availability);
+        res.status(200).send(availability);
+    } catch (err) {
+        console.error(err);
+        res.status(404).send();
+    }
+});
+
+
+/**
+ * Request: TimeInterval
+ */
+userRouter.put('/:userName/availability', async (req, res) => {
+    const { userName } = req.params;
+    const timeInterval: TimeInterval = req.body;
+    try {
+        const result = await collections.user.updateOne( 
+            { userName }, 
+            { $push: { availability: timeInterval } }
+        );
+        if (result) {
+            res.status(200).send({ message: `Availability for user '${userName}' successfully updated.`});
+        } else {
+            res.status(500).send();
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send();
+    }
+});
 
 /**
  * GET endpoint for fetching friends of the user with the given userName.
