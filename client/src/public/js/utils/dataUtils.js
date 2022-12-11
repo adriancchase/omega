@@ -18,7 +18,7 @@ export async function jsonFetch(url, method, body) {
  * @param {string | Date} date 
  * @returns Time from date object in h:mm format.
  */
- function formatTime(date) {
+export function formatTime(date) {
     const d = new Date(date);
     const m = d.getMinutes() >= 10 ? d.getMinutes() : `0${d.getMinutes()}`;
     let h = d.getHours();
@@ -34,7 +34,7 @@ export async function jsonFetch(url, method, body) {
 }
 
 
-function formatDayMonth(date) {
+export function formatDayMonth(date) {
     const d = new Date(date);
     return `${d.toLocaleString('default', { month: 'long' })} ${d.getDate()}`;
 }
