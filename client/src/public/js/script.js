@@ -1,4 +1,4 @@
-import { getLoggedInUserName, jsonFetch } from './utils/dataUtils.js';
+import { getLoggedInUserName, jsonFetch, formatTime, formatDayMonth } from './utils/dataUtils.js';
 
 
 window.onload = async () => {
@@ -93,28 +93,6 @@ function createInvitation(postInvitation) {
                  .addEventListener('click', createPostJoinHandler(postInvitation.postId));
 
     document.getElementById('invitationList').appendChild(newInvitation);
-}
-
-
-function formatTime(date) {
-    const d = new Date(date);
-    const m = d.getMinutes() >= 10 ? d.getMinutes() : `0${d.getMinutes()}`;
-    let h = d.getHours();
-    let p = 'AM';
-    if (h > 12) {
-        h = d.getHours() % 12;
-        p = 'PM';
-    } else if (d.getHours() === 0) {
-        h = 12;  
-    } 
-
-    return `${h}:${m} ${p}`;
-}
-
-
-function formatDayMonth(date) {
-    const d = new Date(date);
-    return `${d.toLocaleString('default', { month: 'long' })} ${d.getDate()}`;
 }
 
 
