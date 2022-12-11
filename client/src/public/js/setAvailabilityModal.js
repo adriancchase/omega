@@ -3,7 +3,6 @@ import { getLoggedInUserName, jsonFetch, formatTime, formatDayMonth } from './ut
 
 
 await importHtml('setAvailabilityModal.html', 'importAvailabilityModal').then(async () => {
-    document.getElementById('closeAvailabilityModal').addEventListener('click', reset);
     document.getElementById('addAvailabilityButton').addEventListener('click', updateAvailability);
     await displayAvailability();
 });
@@ -45,12 +44,20 @@ function displayAvailabilityItem(timeInterval) {
     availabilityItemEndTime.innerText = formatTime(timeInterval.end);
   
     const availabilityItemRemoveButton = newAvailabilityItem.querySelector('#availabilityItemRemoveButton');
-    availabilityItemRemoveButton.addEventListener('click', removeAvailabilityItem(timeInterval));
+    availabilityItemRemoveButton.addEventListener('click', createRemoveHandler(timeInterval));
     
     document.getElementById('availabilityTableBody').appendChild(newAvailabilityItem);
 }
 
 
-function removeAvailabilityItem(timeInterval) {
-    //listItem.querySelector('.btn-primary').addEventListener('click', () => {document.getElementById("li"+listCount).remove();});
+function createRemoveHandler(timeInterval) {
+    return async () => {
+        const userName = getLoggedInUserName();
+        const result = await jsonFetch(`/user/${userName}/availability?start=${timeInterval.start}&end=${timeInterval.end}`, 'DELETE');
+        if (result.status !== 200) {
+            alert('Failed to update availability.');
+        } else {
+            await displayAvailability();
+        }
+    };
 }

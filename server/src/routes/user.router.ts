@@ -86,7 +86,7 @@ userRouter.get('/:userName/availability', async (req, res) => {
  */
 userRouter.put('/:userName/availability', async (req, res) => {
     const { userName } = req.params;
-    const timeInterval: TimeInterval = req.body;
+    const timeInterval: TimeInterval = { start: new Date(req.body.start), end: new Date(req.body.end) };
     try {
         const result = await collections.user.updateOne( 
             { userName }, 
@@ -100,6 +100,29 @@ userRouter.put('/:userName/availability', async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).send();
+    }
+});
+
+userRouter.delete('/:userName/availability', async (req, res) => {
+    if (typeof req.query.start === 'string' && typeof req.query.end === 'string') {
+        const userName = req.params.userName;
+        const timeInterval: TimeInterval = { start: new Date(req.query.start), end: new Date(req.query.end) };
+        try {
+            const result = await collections.user.updateOne( 
+                { userName }, 
+                { $pull: { availability: timeInterval } }
+            );
+            if (result) {
+                res.status(200).send({ message: `Availability for user '${userName}' successfully updated.` });
+            } else {
+                res.status(500).send();
+            }
+        } catch (err) {
+            console.error(err);
+            res.status(500).send();
+        }
+    } else {
+        res.status(400).send({ message: 'Query parameters \'start\' and \'end\' are required to be date strings.' });
     }
 });
 
