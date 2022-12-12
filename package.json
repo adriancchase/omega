@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "tsc",
+    "build": "cd server && tsc",
     "start": "node server/dist/server.js",
     "postinstall": "cd server && tsc",
     "lint": "eslint server/src/**/*"
