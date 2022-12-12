@@ -10,6 +10,7 @@ async function signup() {
   const password = document.getElementById('passwordInput').value;
   const firstName = document.getElementById('firstNameInput').value;
   const lastName = document.getElementById('lastNameInput').value;
+  const pictureUrl = document.getElementById('pictureUrlInput').value;
 
   if (userName.length > 12 || userName.length < 6) {
     alert('Username must be between 6 and 12 characters.');
@@ -24,7 +25,8 @@ async function signup() {
       userName,
       password,
       firstName,
-      lastName
+      lastName,
+      pictureUrl
     });
   
     if (res.status === 201) {

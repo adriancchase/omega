@@ -47,11 +47,12 @@ export interface NewUserParams {
     password: string;
     firstName: string;
     lastName: string;
+    pictureUrl?: string;
 }
 
 
 export function createNewUser(newUserParams: NewUserParams): User {
-    const { userName, password, firstName, lastName } = newUserParams;
+    const { userName, password, firstName, lastName, pictureUrl } = newUserParams;
     const mc = new MiniCrypt();
     const [salt, hash] = mc.hash(password);
 
@@ -61,7 +62,7 @@ export function createNewUser(newUserParams: NewUserParams): User {
         passwordSalt: salt,
         firstName,
         lastName,
-        pictureUrl: '', 
+        pictureUrl: pictureUrl ?? '', 
         availability: [], 
         posts: [],   
         friends: [],
