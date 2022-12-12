@@ -13,7 +13,7 @@ async function login() {
   if (res.status === 200) {
     window.localStorage.setItem('session', await res.json().then(x => JSON.stringify(x.session)));
     // Redirect user to feed.
-    window.location.replace(`/html/index.html`);
+    window.location.replace(`/html/feed.html`);
   } else {
     alert('Invalid username or password.');
   }
