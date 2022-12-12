@@ -1,9 +1,9 @@
 {
   "scripts": {
     "build": "tsc",
-    "start": "node dist/server.js",
-    "postinstall": "tsc",
-    "lint": "eslint src/**/*"
+    "start": "node server/dist/server.js",
+    "postinstall": "cd server && tsc",
+    "lint": "eslint server/src/**/*"
   },
   "type": "module",
   "engines": {
