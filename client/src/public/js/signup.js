@@ -31,7 +31,7 @@ async function signup() {
   
     if (res.status === 201) {
       alert('Sign up successful! Click OK to go to the login page.');
-      window.location.replace(`/html/login.html`);
+      window.location.replace('/html/login.html');
     } else if (res.status === 409) {
       alert(`Username '${userName}' already in use.`);
     } else {
