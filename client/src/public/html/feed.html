@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Foodle</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script>var exports = {};</script>
+    <script type="module" src="../js/script.js"></script>
+  </head>
+  <body>
+    <script type="module" id="importCreatePostModal" src="../js/createPostModal.js"></script>
+    <script type="module" id="importAvailabilityModal" src="../js/setAvailabilityModal.js"></script>
+    <div class="container-fluid text-center">
+        <div class="row">
+            <script type="module" id="createSidebar" src="../js/sidebar.js"></script>
+            <div class="col-6">
+                <div class="row" style="padding-top: 1rem; padding-bottom: 0.5rem;">
+                    <div class="col">
+                        <button type="button" id="feedPostButton" class="btn btn-primary" data-toggle="modal" data-target="#createPostModal">Post</button>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#setAvailabilityModal">Set Availability</button>
+                    </div>
+                </div>
+                <div id="feed" class="container feed text-center"></div>
+            </div>
+            <div class="col-4">
+                <div class="row" style="padding-top: 1rem; padding-bottom: 0.5rem;">
+                    <div class="col">
+                        <h3>Invitations</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div id="invitationList" class="container feed" style="text-align: left;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <template id="invitation">
+        <div class="row">
+            <div class="col">
+                <div class="card shadow">
+                    <div class="card-body invitation-body">
+                        <div class="row">
+                            <div class="col-8">
+                                <div id="invitationLocationText"></div>
+                                <div id="invitationDateText"></div>
+                                <div id="invitationFromText"></div>
+                            </div>
+                            <div class="col my-auto text-center">
+                                <button id="invitationAcceptButton" class="btn btn-primary align-middle" type="button">Accept</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    
+    <template id="post">
+        <div class="row">
+            <div class="col">
+                <div class="card post shadow mb-3">
+                    <div class="card-body">
+                        <div class="container text-center">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card-header">Attendees</div>
+                                    <ul id="attendees" class="list-group list-group-flush attendees-list"></ul>
+                                </div>
+                                <div class="col">
+                                    <div class="card-header">Location</div>
+                                    <span id="postLocationText"></span>
+                                </div>
+                                <div class="col">
+                                    <div class="card-header">Time</div>
+                                    <span id="postMeetingDate"></span>
+                                    <br>
+                                    <span id="postTimeInterval"></span>
+                                </div>
+                            </div>
+                            <div class="row" style="padding-top: 1rem">
+                                <button id="postJoinButton" type="button" class="btn btn-primary">Join</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>
