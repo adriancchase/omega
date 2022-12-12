@@ -31,7 +31,7 @@ function createPost(postView) {
     postView.attendees.forEach(userView => {
         const listElement = document.createElement('li');
         listElement.classList.add('list-group-item');
-        listElement.innerText = userView.userName;
+        listElement.innerText = `${userView.firstName} ${userView.lastName}`;
         attendeesList.appendChild(listElement);
     });
 
