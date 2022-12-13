@@ -60,7 +60,73 @@ The sign up page is accessible through the "Sign Up" button on the home page. It
 The log in page is accessible through the "Log In" button on the home page. It allows an existing user to input their username and password. Clicking the "Log In" button will send the user to the feed page, displaying the relevant posts for their account.
 
 
-## 11. Division of Labor
+## Database
+
+The database is MongoDB hosted on the MongoDB Atlas platform. User objects are stored in the 'user' table and Post objects are stored in the 'post' table. There are two other object types, TimeInterval and PostInvitation, that are stored within these objects. The type definitions are as follows.
+
+### Post
+
+    _id: ObjectId
+    /** Post creation timestamp. */
+    timestamp: Date;
+    /** Username of author */
+    author: string; 
+    /** List of usernames for users attending the meal */      
+    attendees: string[];   
+    /** Name of restaurant */
+    location: string;       
+    /** Meal start/end times */
+    timeInterval: TimeInterval;  
+    /** ID of chat created for attendees -- currently unused */   
+    chatId: string;   
+
+
+### User      
+
+    _id: ObjectId
+    /** Unique username */
+    userName: string;  
+    /** Password encrypted using hash function with salt. */
+    passwordHash: string;
+    /** Salt used for computing encrypted password. */
+    passwordSalt: string;
+    /** Real first name */
+    firstName: string;
+    /** Real last name */
+    lastName: string;
+    /** Profile picture */
+    pictureUrl: string; 
+    /** Start/end times where user is available */
+    availability: TimeInterval[];   
+    /** Posts made by the user */
+    posts: string[];    
+    /** List of friends' usernames */
+    friends: string[]; 
+    /** IDs for posts displayed in user's feed */
+    feed: string[];    
+    /** IDs of posts that the user is signed up to attend */
+    attending: string[];
+    /** IDs of posts that the user has been invited to, but the user has not accepted */
+    invitations: PostInvitation[];  
+
+### PostInvitation
+
+    from: UserView;
+    location: string;
+    timeInterval: TimeInterval;
+    postId: ObjectId;
+
+
+### TimeInterval
+
+    start: Date;
+    end: Date;
+
+
+
+
+
+## Division of Labor
 
 Note: Besides the landing page, all of the code that is currently functioning on the website was written by Nathaniel.
 
