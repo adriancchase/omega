@@ -58,3 +58,33 @@ The sign up page is accessible through the "Sign Up" button on the home page. It
 ### Login Page
 
 The log in page is accessible through the "Log In" button on the home page. It allows an existing user to input their username and password. Clicking the "Log In" button will send the user to the feed page, displaying the relevant posts for their account.
+
+
+## 11. Division of Labor
+
+Note: Besides the landing page, all of the code that is currently functioning on the website was written by Nathaniel.
+
+* Nathaniel
+    * Backend - Programmed the entire backend.
+        * Set up MongoDB database.
+        * Designed and implemented all API endpoints.
+        * Created data type specification and TypeScript type definitions.
+    * Frontend - Programmed the entire frontend except for the landing page.
+        * Feed Page - Includes the post feed itself along with post creation menu, set availability menu, and invitations display.
+        * Login/Signup pages - Redid initial HTML/CSS from Jawad to include different fields, changed styling, and connected to backend.
+        * Friends Page - Redid initial HTML/CSS from Jawad for the friends display, connected to backend, and implemented search box for adding friends.
+        * Sidebar/navigation bar.
+    * Deployment
+        * Deployed to Heroku.
+    * Misc
+        * Wrote ideas.md, milestone2.md, milestone3.md, setup.md, final.md. 
+        * Created final video.
+* Adrian
+    * Frontend
+        * Landing page.
+        * Calendar (unfinished, not on website).
+* Jawad
+    * Frontend
+        * Initial HTML/CSS for static friends page.
+        * Initial HTML/CSS for static Login/Signup pages.
+      
