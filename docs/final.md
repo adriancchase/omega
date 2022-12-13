@@ -20,6 +20,8 @@ Foodle achieves this goal by matching users with their friends who are available
 
 ### Landing Page
 
+![image](images/final/landing.PNG)
+
 The landing page has "Sign up" and "Log In" links in the navigation bar at the top. 
 
 
@@ -29,20 +31,29 @@ The landing page has "Sign up" and "Log In" links in the navigation bar at the t
 
 ### Feed Page
 
+
 #### Post Feed
+
+![image](images/final/feed_main.PNG)
 
 The post feed displays a list of posts made by a user's friends. Each post corresponds to a planned meal, and contains the location, start and end times, and list of users attending the meal. The user may click the "Join" button on any post to be added to the list of attendees.
 
 #### Set Availability Menu
 
+![image](images/final/feed_set_availability.PNG)
+
 Clicking the "Set Availability" button on the feed page displays a menu with a list of the user's current availability time windows (start and end times), allowing the user to create and delete these time windows as needed.
 
 #### Create Post Menu
+
+![image](images/final/feed_create_post.PNG)
 
 Clicking the "Post" button on the feed page displays a menu for creating a new post. To plan a meal, the user can input the location and start and end times. Upon choosing a time, the user can click the "Show Available Friends" button on this menu to show a list of their friends who are available at the specified time. Each friend has an "Invite" button next to their name, which allows the post author to invite that friend to their meal, with the invitation appearing in the friend's invitation list on the right side of the feed page.
 
 
 #### Invitation List
+
+![image](images/final/feed_invitation.PNG)
 
 The invitation list on the right side of the feed page displays invitations to friends' meals, with each invitation containing the name of the user who sent the invitation along with the meal location and start and end times. Clicking the "Accept" button on an invitation will add the user to the list of attendees for the corresponding meal post.
 
@@ -50,14 +61,20 @@ The invitation list on the right side of the feed page displays invitations to f
 
 ### Friends Page
 
+![image](images/final/friends.PNG)
+
 The friends page can be accessed through the "Friends" button on the sidebar. It displays a list of the user's friends, along with their profile pictures. The user may add a new friend by their username by typing it into the text box and clicking "Add". Adding a person as a friend allows you to see their posts, but they must also add you as a friend in order to see your posts.
 
 
 ### Sign Up Page
 
+![image](images/final/signup.PNG)
+
 The sign up page is accessible through the "Sign Up" button on the home page. It allows a new user to set their username, password, first name, last name, and the URL to their desired profile picture. Clicking the "Submit" button will create their account and send them to the login page.
 
 ### Login Page
+
+![image](images/final/login.PNG)
 
 The log in page is accessible through the "Log In" button on the home page. It allows an existing user to input their username and password. Clicking the "Log In" button will send the user to the feed page, displaying the relevant posts for their account.
 
@@ -260,7 +277,8 @@ Note: Besides the landing page, all of the code that is currently functioning on
 * Adrian
     * Frontend
         * Landing page.
-        * Calendar (unfinished, not on website).
+    * Misc
+        * Wireframes.
 * Jawad
     * Frontend
         * Initial HTML/CSS for static friends page.
