@@ -1,6 +1,8 @@
 # Omega
 ## Foodle
-## Fall 2022
+### Fall 2022
+
+URL: https://foodle-website.herokuapp.com/
 
 ## Overview
 
@@ -58,6 +60,116 @@ The sign up page is accessible through the "Sign Up" button on the home page. It
 ### Login Page
 
 The log in page is accessible through the "Log In" button on the home page. It allows an existing user to input their username and password. Clicking the "Log In" button will send the user to the feed page, displaying the relevant posts for their account.
+
+## API Specification and URL Routes
+
+See the Database section for definitions of the data types being referenced below.
+
+### Post Endpoint
+
+    POST /post/new
+
+Creates a new post.
+
+Request Body: Post object without the '_id' or 'timestamp' fields.
+
+    GET /post/{id}
+
+Returns the Post object with the ID given in the URL.
+
+Request Body: None
+
+    PUT post/{id}/join
+
+Adds the username given in the request body to the list of attendees for the Post object with the ID given in the URL.
+
+Request Body: { userName: string }
+
+    PUT /post/{id}/invite
+
+Sends an invitation to each user specified in the request body for the post corresponding to the ID in the URL.
+
+Request Body: {
+    /* Username of the user who sent the invitation. */
+    from: string;
+    /* Array of usernames for the users to invite to the post.*/
+    friendsToInvite: string[];
+    /* Location of meal in the post. */
+    location: string;
+    /* Meal start and end times in the post. */
+    timeInterval: TimeInterval;
+}
+
+### User Endpoint
+
+    GET /user
+
+Returns all users.
+
+Request Body: None
+
+    GET /user/{userName}
+
+Returns the User object with the username given in the URL.
+
+Request Body: None
+
+    GET /user/{userName}/availability
+
+Returns the array in the 'availability' field of the User object with the username given in the URL.
+
+Request Body: None
+
+    PUT /user/{userName}/availability
+
+Adds a TimeInterval object to the 'availability' field of the User object with the username given in the URL.
+
+Request Body: TimeInterval
+
+    DELETE /user/{userName}/availability?start={startDateString}&end={endDateString}
+
+Deletes a TimeInterval object from the 'availability' field of the User obejct with the username given in the URL. The start and end dates in the TimeInterval are given in the URL query parameters as date strings.
+
+Request Body: None
+
+    GET /user/{userName}/friends
+
+Returns an array of FriendView objects for all friends of the user with the username given in the URL.
+
+Request Body: None
+
+    PUT /user/{userName}/friends
+
+Adds the username in the request body to the friends list of the user with the username given in the URL.
+
+Request Body: { 
+    /* Name of friend to be added. */
+    friendUserName: string 
+}
+
+    GET /user/{userName}/feed
+
+Returns an array of PostView objects for all posts in the feed of the user with the username given in the URL.
+
+Request Body: None
+
+    PUT /user/{userName}
+
+Updates the user with the username given in the URL with the fields given in the request body.
+
+Request Body: Object containing subset of User object fields
+
+    DELETE /user/{userName}
+
+Deletes the user with the username given in the URL.
+
+Request Body: None
+
+    POST /user/{userName}/session
+
+Authenticates given username and password using stored password salt and hash, returning a { session: { userName: string } } object which is used to authenticate the client.
+
+Request Body: { password: string; }
 
 
 ## Database
