@@ -29,6 +29,18 @@ The landing page has "Sign up" and "Log In" links in the navigation bar at the t
 
 * To log in to an existing account, click on "Log In". After inputting your username and password, you will be sent to the feed page.
 
+### Sign Up Page
+
+![image](images/final/signup.PNG)
+
+The sign up page is accessible through the "Sign Up" button on the home page. It allows a new user to set their username, password, first name, last name, and the URL to their desired profile picture. Clicking the "Submit" button will create their account and send them to the login page.
+
+### Login Page
+
+![image](images/final/login.PNG)
+
+The log in page is accessible through the "Log In" button on the home page. It allows an existing user to input their username and password. Clicking the "Log In" button will send the user to the feed page, displaying the relevant posts for their account.
+
 ### Feed Page
 
 
@@ -66,17 +78,9 @@ The invitation list on the right side of the feed page displays invitations to f
 The friends page can be accessed through the "Friends" button on the sidebar. It displays a list of the user's friends, along with their profile pictures. The user may add a new friend by their username by typing it into the text box and clicking "Add". Adding a person as a friend allows you to see their posts, but they must also add you as a friend in order to see your posts.
 
 
-### Sign Up Page
 
-![image](images/final/signup.PNG)
 
-The sign up page is accessible through the "Sign Up" button on the home page. It allows a new user to set their username, password, first name, last name, and the URL to their desired profile picture. Clicking the "Submit" button will create their account and send them to the login page.
 
-### Login Page
-
-![image](images/final/login.PNG)
-
-The log in page is accessible through the "Log In" button on the home page. It allows an existing user to input their username and password. Clicking the "Log In" button will send the user to the feed page, displaying the relevant posts for their account.
 
 ## API Specification and URL Routes
 
